@@ -1,10 +1,9 @@
 import {
     useRef,
-    useState,
-    type KeyboardEvent,
-    type PointerEvent,
     type ReactNode,
 } from "react";
+import { useDragSlider } from "../../hooks/useDrag";
+
 
 /* ------------------------------------------------------------------ */
 /* Tipe & data                                                         */
@@ -68,14 +67,14 @@ const IconSpark = () => (
 export const DEFAULT_SLIDES: ProductSlide[] = [
     {
         id: "algebra",
-        name: "Algebra",
-        logoSrc: "/images/algebra-logo.svg",
+        name: "Algebra Edu",
+        logoSrc: "/assets/favicon.png",
         logoAlt: "Logo Algebra",
         tagline: "Digitalisasi Pendidikan",
         description:
             "Platform pembelajaran dan manajemen pendidikan untuk sekolah, guru, dan siswa.",
         href: "#",
-        imageSrc: "/assets/2.png",
+        imageSrc: "/assets/preview/web-prev-1.png",
         imageAlt: "Tampilan dasbor Algebra di laptop dan tablet",
         stats: [
             { value: "+10K", label: "Pengguna aktif" },
@@ -108,11 +107,11 @@ export const DEFAULT_SLIDES: ProductSlide[] = [
     {
         id: "produk-2",
         name: "Nama Produk",
-        logoSrc: "/images/produk-2-logo.svg",
+        logoSrc: "/assets/favicon.png",
         tagline: "Kategori Produk",
         description: "Deskripsi singkat produk atau karya berikutnya.",
         href: "#",
-        imageSrc: "/images/produk-2.webp",
+        imageSrc: "/assets/preview/web-prev-2.png",
         imageAlt: "Tampilan produk",
         stats: [
             { value: "+0", label: "Metrik 1" },
@@ -176,7 +175,7 @@ function Slide({ slide }: { slide: ProductSlide }) {
                     <a
                         href={slide.href}
                         draggable={false}
-                        className="mt-6 inline-flex items-center gap-2 rounded-full border border-border bg-white px-5 py-2.5 text-sm font-medium text-primary transition-colors hover:border-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                        className="mt-6 inline-flex items-center gap-2 rounded-full border border-border bg-white px-5 py-2.5 text-sm font-medium text-primary transition-colors hover:border-primaryfocus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                     >
                         Pelajari lebih lanjut <Arrow />
                     </a>
@@ -188,7 +187,7 @@ function Slide({ slide }: { slide: ProductSlide }) {
                         alt={slide.imageAlt}
                         loading="lazy"
                         draggable={false}
-                        className="mx-auto w-full max-w-[460px] object-contain"
+                        className="mx-auto w-full max-w-115 object-contain"
                     />
                     <dl className="mt-6 grid grid-cols-3 gap-2 text-center">
                         {slide.stats.map((s) => (
@@ -211,7 +210,7 @@ function Slide({ slide }: { slide: ProductSlide }) {
                         key={c.title}
                         href={c.href}
                         draggable={false}
-                        className="group block rounded-card border border-border bg-white p-5 shadow-card transition-colors hover:border-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                        className="group block rounded-card border border-border bg-white p-5 shadow-card transition-colors hover:border-primaryfocus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                     >
                         <div className="flex items-start justify-between text-ink">
                             {c.icon}
@@ -235,78 +234,10 @@ function Slide({ slide }: { slide: ProductSlide }) {
 /* ------------------------------------------------------------------ */
 
 function Slider({ slides }: { slides: ProductSlide[] }) {
-    const viewportRef = useRef<HTMLDivElement>(null);
-    const [index, setIndex] = useState(0);
-    const [dx, setDx] = useState(0);
-    const [dragging, setDragging] = useState(false);
-
     const drag = useRef({ startX: 0, startT: 0, dx: 0, active: false, moved: false });
     const count = slides.length;
-
-    const go = (i: number) => {
-        setIndex(Math.min(Math.max(i, 0), count - 1))
-    };
-
-    const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
-        if (e.pointerType === "mouse" && e.button !== 0) return;
-        drag.current = {
-            startX: e.clientX,
-            startT: performance.now(),
-            dx: 0,
-            active: true,
-            moved: false,
-        };
-    };
-
-    const onPointerMove = (e: PointerEvent<HTMLDivElement>) => {
-        const d = drag.current;
-        if (!d.active) return;
-        let delta = e.clientX - d.startX;
-
-        // Mulai menggeser hanya setelah melewati ambang kecil, agar klik tetap normal
-        if (!d.moved) {
-            if (Math.abs(delta) < 6) return;
-            d.moved = true;
-            setDragging(true);
-            e.currentTarget.setPointerCapture(e.pointerId);
-        }
-
-        // Efek tertahan di ujung pertama/terakhir
-        if ((index === 0 && delta > 0) || (index === count - 1 && delta < 0)) {
-            delta *= 0.35;
-        }
-        d.dx = delta;
-        setDx(delta);
-    };
-
-    const endDrag = () => {
-        const d = drag.current;
-        if (!d.active) return;
-        d.active = false;
-
-        if (d.moved) {
-            const width = viewportRef.current?.offsetWidth ?? 1;
-            const velocity = d.dx / Math.max(performance.now() - d.startT, 1); // px/ms
-            if (d.dx < -width * 0.2 || velocity < -0.5) go(index + 1);
-            else if (d.dx > width * 0.2 || velocity > 0.5) go(index - 1);
-        }
-        setDragging(false);
-        setDx(0);
-    };
-
-    // Cegah klik pada link/tombol tepat setelah menggeser
-    const onClickCapture = (e: React.MouseEvent) => {
-        if (drag.current.moved) {
-            e.preventDefault();
-            e.stopPropagation();
-            drag.current.moved = false;
-        }
-    };
-
-    const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
-        if (e.key === "ArrowLeft") go(index - 1);
-        if (e.key === "ArrowRight") go(index + 1);
-    };
+    const { viewportRef, index, go, dragging, onKeyDown, trackProps } =
+        useDragSlider(count);
 
     return (
         <div
@@ -325,14 +256,14 @@ function Slider({ slides }: { slides: ProductSlide[] }) {
                 <div
                     className={`flex cursor-grab touch-pan-y select-none active:cursor-grabbing ${dragging
                         ? "transition-none"
-                        : "transition-transform duration-500 ease-[var(--ease-soft)] motion-reduce:transition-none"
+                        : "transition-transform duration-500 ease-soft motion-reduce:transition-none"
                         }`}
-                    style={{ transform: `translate3d(calc(${-index * 100}% + ${dx}px), 0, 0)` }}
-                    onPointerDown={onPointerDown}
-                    onPointerMove={onPointerMove}
-                    onPointerUp={endDrag}
-                    onPointerCancel={endDrag}
-                    onClickCapture={onClickCapture}
+                    style={trackProps.style}
+                    onPointerDown={trackProps.onPointerDown}
+                    onPointerMove={trackProps.onPointerMove}
+                    onPointerUp={trackProps.onPointerUp}
+                    onPointerCancel={trackProps.onPointerCancel}
+                    onClickCapture={trackProps.onClickCapture}
                 >
                     {slides.map((slide, i) => (
                         <div
@@ -361,7 +292,7 @@ function Slider({ slides }: { slides: ProductSlide[] }) {
                                 onClick={() => go(i)}
                                 aria-label={`Ke slide ${i + 1}`}
                                 aria-current={i === index}
-                                className={`h-2 rounded-full transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${i === index ? "w-6 bg-primary" : "w-2 bg-border hover:bg-muted"
+                                className={`h-2 rounded-full transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${i === index ? "w-6 bg-primary" : "w-2 bg-border hover:bg-muted"
                                     }`}
                             />
                         ))}
@@ -373,7 +304,7 @@ function Slider({ slides }: { slides: ProductSlide[] }) {
                             onClick={() => go(index - 1)}
                             disabled={index === 0}
                             aria-label="Slide sebelumnya"
-                            className="grid h-9 w-9 place-items-center rounded-full border border-border bg-white text-ink transition-colors hover:border-primary disabled:opacity-40 disabled:hover:border-border focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                            className="grid h-9 w-9 place-items-center rounded-full border border-border bg-white text-ink transition-colors hover:border-primary disabled:opacity-40 disabled:hover:border-border focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                         >
                             <Arrow dir="left" />
                         </button>
@@ -382,7 +313,7 @@ function Slider({ slides }: { slides: ProductSlide[] }) {
                             onClick={() => go(index + 1)}
                             disabled={index === count - 1}
                             aria-label="Slide berikutnya"
-                            className="grid h-9 w-9 place-items-center rounded-full border border-border bg-white text-ink transition-colors hover:border-primary disabled:opacity-40 disabled:hover:border-border focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                            className="grid h-9 w-9 place-items-center rounded-full border border-border bg-white text-ink transition-colors hover:border-primary disabled:opacity-40 disabled:hover:border-border focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                         >
                             <Arrow />
                         </button>
@@ -411,15 +342,15 @@ export default function ProductSection({
     return (
         <section
             id="produk"
-            className="bg-bg py-[var(--section-space)]"
+            className="bg-bg py-(--section-space)"
         >
-            <div className="mx-auto max-w-container px-[var(--container-pad)]">
+            <div className="mx-auto max-w-container px-(--container-pad)">
                 <header className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                     <div>
-                        <p className="mb-3 text-[length:var(--fs-eyebrow)] font-medium uppercase tracking-[var(--tracking-eyebrow)] text-muted">
+                        <p className="mb-3 text-(--fs-eyebrow) font-medium uppercase tracking-eyebrow text-muted">
                             Fokus Utama
                         </p>
-                        <h2 className="text-[length:var(--fs-h2)] font-semibold tracking-tight text-ink">
+                        <h2 className="text-(--fs-h2) font-semibold tracking-tight text-ink">
                             Produk &amp; Karya
                         </h2>
                         <p className="mt-3 max-w-[56ch] text-sm leading-relaxed text-muted">
@@ -429,7 +360,7 @@ export default function ProductSection({
                     </div>
                     <a
                         href={allHref}
-                        className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                        className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
                     >
                         Lihat semua <Arrow />
                     </a>

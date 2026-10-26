@@ -1,3 +1,5 @@
+import SocialLinks from "./const";
+
 type HeroProps = {
     /** Foto latar (akan ditampilkan grayscale) */
     backgroundSrc: string;
@@ -20,10 +22,10 @@ export default function Hero({
             id="beranda"
             className="relative overflow-hidden bg-bg"
         >
-            <div className="mx-auto grid max-w-container items-center px-[var(--container-pad)] lg:min-h-[640px] lg:grid-cols-12">
+            <div className="mx-auto grid max-w-container items-center px-(--container-pad) lg:min-h-160 lg:grid-cols-12">
                 {/* Teks */}
                 <div className="relative z-10 order-2 py-12 lg:order-1 lg:col-span-6 lg:py-24">
-                    <p className="mb-5 text-[length:var(--fs-eyebrow)] font-medium uppercase tracking-[var(--tracking-eyebrow)] text-muted">
+                    <p className="mb-5 text-(length:--fs-eyebrow) font-medium uppercase tracking-eyebrow text-muted">
                         Teknologi untuk Pendidikan &amp; Masyarakat
                     </p>
 
@@ -40,14 +42,14 @@ export default function Hero({
                     <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
                         <a
                             href={primaryHref}
-                            className="inline-flex items-center justify-center rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-white shadow-cta transition-colors hover:bg-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                            className="inline-flex items-center justify-center rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-white shadow-cta transition-colors hover:bg-primary-hover  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                         >
                             Lihat Karya &amp; Dampak
                         </a>
 
                         <a
                             href={secondaryHref}
-                            className="group inline-flex items-center justify-center gap-3 rounded-full px-2 py-2 text-sm font-medium text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                            className="group inline-flex items-center justify-center gap-3 rounded-full px-2 py-2 text-sm font-medium text-ink  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                         >
                             Tentang Saya
                             <span
@@ -69,10 +71,11 @@ export default function Hero({
                             </span>
                         </a>
                     </div>
+                    <SocialLinks />
                 </div>
 
                 {/* Foto */}
-                <div className="relative order-1 -mx-[var(--container-pad)] h-[380px] sm:h-[460px] lg:order-2 lg:col-span-6 lg:mx-0 lg:h-full lg:min-h-[640px]">
+                <div className="relative order-1 -mx-(--container-pad) h-95 sm:h-115 lg:order-2 lg:col-span-6 lg:mx-0 lg:h-full lg:min-h-160">
                     {/* Latar grayscale, memudar ke kiri */}
                     <div
                         aria-hidden

@@ -72,12 +72,12 @@ export default function Navbar({
         >
             <nav
                 aria-label="Navigasi utama"
-                className="mx-auto flex h-[var(--navbar-height)] max-w-container items-center justify-between px-[var(--container-pad)]"
+                className="mx-auto flex h-(--navbar-height) max-w-container items-center justify-between px-(--container-pad)"
             >
                 {/* Logo */}
                 <a
                     href="#beranda"
-                    className="flex items-center gap-2 rounded-md text-[15px] font-semibold tracking-tight text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                    className="flex items-center gap-2 rounded-md text-[15px] font-semibold tracking-tight text-ink  focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
                 >
                     {logoSrc ? (
                         <img src={logoSrc} alt="" className="h-6 w-6" />
@@ -101,7 +101,7 @@ export default function Navbar({
                                 <a
                                     href={item.href}
                                     aria-current={isActive ? "page" : undefined}
-                                    className={`rounded text-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary ${isActive
+                                    className={`rounded text-sm transition-colors  focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary ${isActive
                                         ? "font-semibold text-primary"
                                         : "text-ink hover:text-primary"
                                         }`}
@@ -116,7 +116,7 @@ export default function Navbar({
                 {/* CTA desktop */}
                 <a
                     href={ctaHref}
-                    className="hidden rounded-full bg-navy px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary lg:inline-block"
+                    className="hidden rounded-full bg-navy px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primarye focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary lg:inline-block"
                 >
                     {ctaLabel}
                 </a>
@@ -128,7 +128,7 @@ export default function Navbar({
                     aria-expanded={open}
                     aria-controls="menu-mobile"
                     aria-label={open ? "Tutup menu" : "Buka menu"}
-                    className="grid h-10 w-10 place-items-center rounded-md text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary lg:hidden"
+                    className="grid h-10 w-10 place-items-center rounded-md text-ink focus-visible:outline-2 focus-visible:outline-primary lg:hidden"
                 >
                     <svg
                         width="22"
@@ -155,7 +155,7 @@ export default function Navbar({
                 hidden={!open}
                 className="border-t border-border bg-white lg:hidden"
             >
-                <ul className="mx-auto max-w-container px-[var(--container-pad)] py-3">
+                <ul className="mx-auto max-w-container px-(--container-pad) py-3">
                     {NAV_ITEMS.map((item) => (
                         <li key={item.href}>
                             <a
@@ -175,7 +175,7 @@ export default function Navbar({
                         <a
                             href={ctaHref}
                             onClick={() => setOpen(false)}
-                            className="block w-full rounded-full bg-navy px-[var(--container-pad)] py-3 text-center text-sm font-semibold text-white"
+                            className="block w-full rounded-full bg-navy px-(--container-pad) py-3 text-center text-sm font-semibold text-white"
                         >
                             {ctaLabel}
                         </a>
