@@ -126,7 +126,7 @@ export default function Hero({
                     <img
                         src={portraitSrc}
                         alt={portraitAlt}
-                        className="absolute -bottom-30 h-[120%] left-[30%] w-auto max-w-none object-contain object-center"
+                        className="absolute -bottom-30 h-[120%] right-[10%] lg:left-[30%] w-auto max-w-none object-contain object-center"
                         fetchPriority="high"
                     />
                 </div>

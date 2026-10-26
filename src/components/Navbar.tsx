@@ -19,7 +19,7 @@ type NavbarProps = {
 };
 
 export default function Navbar({
-    brandName = "Puguh Pamungkas",
+    brandName = "Cak Oyim",
     logoSrc,
     ctaLabel = "Hubungi Saya",
     ctaHref = "#kontak",
@@ -66,8 +66,8 @@ export default function Navbar({
     return (
         <header
             className={`sticky top-0 z-50 border-b bg-white/90 backdrop-blur transition-shadow ${scrolled
-                    ? "border-border shadow-card"
-                    : "border-transparent"
+                ? "border-border shadow-card"
+                : "border-transparent"
                 }`}
         >
             <nav
@@ -102,8 +102,8 @@ export default function Navbar({
                                     href={item.href}
                                     aria-current={isActive ? "page" : undefined}
                                     className={`rounded text-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary ${isActive
-                                            ? "font-semibold text-primary"
-                                            : "text-ink hover:text-primary"
+                                        ? "font-semibold text-primary"
+                                        : "text-ink hover:text-primary"
                                         }`}
                                 >
                                     {item.label}
@@ -163,8 +163,8 @@ export default function Navbar({
                                 onClick={() => setOpen(false)}
                                 aria-current={active === item.href ? "page" : undefined}
                                 className={`block rounded-md px-2 py-3 text-base ${active === item.href
-                                        ? "font-semibold text-primary"
-                                        : "text-ink"
+                                    ? "font-semibold text-primary"
+                                    : "text-ink"
                                     }`}
                             >
                                 {item.label}

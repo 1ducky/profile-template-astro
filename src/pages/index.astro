@@ -2,6 +2,7 @@
 import Hero from "../components/Hero";
 import Layout from "../layouts/Layout.astro";
 import "../global.css";
+import ProductSection from "../components/Product";
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
@@ -9,4 +10,5 @@ import "../global.css";
 <Layout>
 	<!-- <Welcome /> -->
 	<Hero portraitSrc="/assets/1.png" backgroundSrc="/assets/2.png" />
+	<ProductSection client:visible />
 </Layout>
