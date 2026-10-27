@@ -1,0 +1,175 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import "../../global.css";
+
+import type { Article } from "../../types/articles";
+import ArticlesDemo from "../../components/articles/Demo";
+
+const Articles: Article[] = [
+    {
+        category: { label: "social", slug: "sosial" },
+        readingTimeMinutes: 1,
+        title: "article 1",
+        excerpt: "Social",
+        href: "#",
+        id: "0",
+        slug: "1",
+        thumbnail: {
+            src: "/assets/preview/web-prev-1.png",
+            alt: "Social",
+            width: 1170,
+            height: 658,
+        },
+        publishedAt: new Date().toISOString(),
+        isFeatured: true,
+    },
+    {
+        category: { label: "social", slug: "pendidikan" },
+        readingTimeMinutes: 1,
+        title: "article 2",
+        excerpt: "Social",
+        href: "#",
+        id: "1",
+        slug: "1",
+        thumbnail: {
+            src: "/assets/preview/web-prev-1.png",
+            alt: "Social",
+            width: 1170,
+            height: 658,
+        },
+        publishedAt: new Date().toISOString(),
+        isFeatured: false,
+    },
+    {
+        category: { label: "social", slug: "teknologi" },
+        readingTimeMinutes: 1,
+        title: "article 3",
+        excerpt: "Social",
+        href: "#",
+        id: "2",
+        slug: "1",
+        thumbnail: {
+            src: "/assets/preview/web-prev-1.png",
+            alt: "Social",
+            width: 1170,
+            height: 658,
+        },
+        publishedAt: new Date().toISOString(),
+        isFeatured: false,
+    },
+    {
+        category: { label: "social", slug: "perspektif" },
+        readingTimeMinutes: 1,
+        title: "article 4",
+        excerpt: "Social",
+        href: "#",
+        id: "3",
+        slug: "1",
+        thumbnail: {
+            src: "/assets/preview/web-prev-1.png",
+            alt: "Social",
+            width: 1170,
+            height: 658,
+        },
+        publishedAt: new Date().toISOString(),
+        isFeatured: false,
+    },
+    {
+        category: { label: "social", slug: "sosial" },
+        readingTimeMinutes: 1,
+        title: "article 5",
+        excerpt: "Social",
+        href: "#",
+        id: "4",
+        slug: "1",
+        thumbnail: {
+            src: "/assets/preview/web-prev-1.png",
+            alt: "Social",
+            width: 1170,
+            height: 658,
+        },
+        publishedAt: new Date().toISOString(),
+        isFeatured: false,
+    },
+];
+---
+
+<Layout>
+    <ArticlesDemo Articles={Articles} client:visible />
+</Layout>
+
+<!-- <ArticlesPageLayout>
+    <ArticlesPageHeader
+        breadcrumb={[
+            { label: "Beranda", href: "/" },
+            { label: "Artikel & Wawasan" },
+        ]}
+        title="Artikel & Wawasan"
+        subtitle="Gagasan, pengalaman, dan perkembangan terbaru."
+        slot="header"
+    />
+    <div slot="toolbar">
+        <ArticleSearchBar
+            value={""}
+            onChange={() => {}}
+            onClear={() => {}}
+        />
+        <CategoryFilter
+            categories={[
+                {
+                    label: "social",
+                    slug: "sosial",
+                },
+                {
+                    label: "Tentang Kami",
+                    slug: "pendidikan",
+                },
+                {
+                    label: "Laporan",
+                    slug: "perspektif",
+                },
+                {
+                    label: "Teknologi",
+                    slug: "teknologi",
+                },
+            ]}
+            active="semua"
+            onSelect={() => {}}
+        />
+    </div>
+    {
+        Articles.map((a, i) => {
+            if (a.isFeatured) {
+                return (
+                    <FeaturedArticleCard
+                        slot={"featured"}
+                        onToggleBookmark={() => {}}
+                        isBookmarked={true}
+                        article={{
+                            category: { label: "social", slug: "sosial" },
+                            readingTimeMinutes: 1,
+                            title: "article ",
+                            excerpt: "Social",
+                            href: "#",
+                            id: "1",
+                            slug: "1",
+                            thumbnail: {
+                                src: "/assets/preview/web-prev-1.png",
+                                alt: "Social",
+                                width: 1170,
+                                height: 658,
+                            },
+                            publishedAt: new Date().toISOString(),
+                            isFeatured: true,
+                        }}
+                    />
+                );
+            }
+        })
+    }
+    <ArticleGrid
+        articles={Articles.filter((a) => !a.isFeatured)}
+        bookmarkedIds={new Set()}
+        onToggleBookmark={onBookMark}
+    />
+</ArticlesPageLayout> -->
