@@ -1,5 +1,6 @@
 ---
 import Navbar from "../components/frontpage/Navbar";
+import "../global.css";
 ---
 
 <!doctype html>
@@ -11,8 +12,14 @@ import Navbar from "../components/frontpage/Navbar";
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Astro Basics</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+			rel="stylesheet"
+		/>
 	</head>
-	<body>
+	<body class="font-sans text-surface dark:text-night-surface">
 		<Navbar client:load />
 		<slot />
 	</body>

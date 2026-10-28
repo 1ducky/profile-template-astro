@@ -1,5 +1,6 @@
 import type { ArticleGridProps } from "../../types/articles";
-import { ArticleCard } from "./Card";
+
+import { ArticleList } from "./List";
 
 
 /**
@@ -20,11 +21,11 @@ export function ArticleGrid({
 }: ArticleGridProps) {
     return (
         <ul
-            className={`m-0 grid list-none gap-4 p-0 md:gap-6 ${MOBILE[columns.mobile]} ${TABLET[columns.tablet]} ${DESKTOP[columns.desktop]}`}
+            className={`m-0 grid list-none p-0 md:gap-6 grid-cols-1`}
         >
             {articles.map((article) => (
                 <li key={article.id}>
-                    <ArticleCard
+                    <ArticleList
                         article={article}
                         isBookmarked={bookmarkedIds.has(article.id)}
                         onToggleBookmark={onToggleBookmark}

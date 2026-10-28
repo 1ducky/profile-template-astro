@@ -196,7 +196,11 @@ interface ArticleCardBaseProps {
     onOpen?: (article: Article) => void;
 }
 
-export interface FeaturedArticleCardProps extends ArticleCardBaseProps {
+export interface FeaturedArticleCardProps {
+    articles: Article[];
+    isBookmarked: boolean;
+    onToggleBookmark: (articleId: string) => void;
+    onOpen?: (article: Article) => void;
     /** Teks tautan; default "Baca selengkapnya" */
     ctaLabel?: string;
 }

@@ -15,7 +15,7 @@ export default function ArticlesDemo({ Articles }: { Articles: Article[] }) {
     const [category, setCategory] = useState<ArticleCategoryFilter>("semua");
     const [bookmarked, setBookmarked] = useState<ReadonlySet<string>>(new Set());
 
-    const featured = useMemo(() => article.find((a) => a.isFeatured), [article]);
+    const featured = useMemo(() => article.filter((a) => a.isFeatured), [article]);
     const filtered = useMemo(() => {
         return article.filter((a) => {
             const matchesSearch = a.title.toLowerCase().includes(search.toLowerCase()) && !a.isFeatured;
@@ -60,8 +60,8 @@ export default function ArticlesDemo({ Articles }: { Articles: Article[] }) {
             }
             featured={featured && (
                 <FeaturedArticleCard
-                    article={featured}
-                    isBookmarked={bookmarked.has(featured.id)}
+                    articles={filtered}
+                    isBookmarked={false}
                     onToggleBookmark={toggleBookmark}
                 />)}
         >

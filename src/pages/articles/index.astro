@@ -1,175 +1,45 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import "../../global.css";
+import ArticleContainer from "../../layouts/Article/Container.astro";
+import ArticleFooter from "../../layouts/Article/Footer.astro";
+import ArticleHeader from "../../layouts/Article/Header.astro";
 
-import type { Article } from "../../types/articles";
-import ArticlesDemo from "../../components/articles/Demo";
-
-const Articles: Article[] = [
-    {
-        category: { label: "social", slug: "sosial" },
-        readingTimeMinutes: 1,
-        title: "article 1",
-        excerpt: "Social",
-        href: "#",
-        id: "0",
-        slug: "1",
-        thumbnail: {
-            src: "/assets/preview/web-prev-1.png",
-            alt: "Social",
-            width: 1170,
-            height: 658,
-        },
-        publishedAt: new Date().toISOString(),
-        isFeatured: true,
-    },
-    {
-        category: { label: "social", slug: "pendidikan" },
-        readingTimeMinutes: 1,
-        title: "article 2",
-        excerpt: "Social",
-        href: "#",
-        id: "1",
-        slug: "1",
-        thumbnail: {
-            src: "/assets/preview/web-prev-1.png",
-            alt: "Social",
-            width: 1170,
-            height: 658,
-        },
-        publishedAt: new Date().toISOString(),
-        isFeatured: false,
-    },
-    {
-        category: { label: "social", slug: "teknologi" },
-        readingTimeMinutes: 1,
-        title: "article 3",
-        excerpt: "Social",
-        href: "#",
-        id: "2",
-        slug: "1",
-        thumbnail: {
-            src: "/assets/preview/web-prev-1.png",
-            alt: "Social",
-            width: 1170,
-            height: 658,
-        },
-        publishedAt: new Date().toISOString(),
-        isFeatured: false,
-    },
-    {
-        category: { label: "social", slug: "perspektif" },
-        readingTimeMinutes: 1,
-        title: "article 4",
-        excerpt: "Social",
-        href: "#",
-        id: "3",
-        slug: "1",
-        thumbnail: {
-            src: "/assets/preview/web-prev-1.png",
-            alt: "Social",
-            width: 1170,
-            height: 658,
-        },
-        publishedAt: new Date().toISOString(),
-        isFeatured: false,
-    },
-    {
-        category: { label: "social", slug: "sosial" },
-        readingTimeMinutes: 1,
-        title: "article 5",
-        excerpt: "Social",
-        href: "#",
-        id: "4",
-        slug: "1",
-        thumbnail: {
-            src: "/assets/preview/web-prev-1.png",
-            alt: "Social",
-            width: 1170,
-            height: 658,
-        },
-        publishedAt: new Date().toISOString(),
-        isFeatured: false,
-    },
-];
+import HeadlineSection from "../../components/Article/Headline";
+import Galery from "../../components/Article/Galery";
+import AdsSection from "../../components/Article/Ads";
+import VListed from "../../components/Article/VListed.astro";
+import { mockArticles } from "../../data/article/Articles";
+import Fragment from "../../layouts/Article/Fragment.astro";
+import HListed from "../../components/Article/HListed.astro";
 ---
 
 <Layout>
-    <ArticlesDemo Articles={Articles} client:visible />
+    <ArticleHeader />
+    <ArticleContainer class="mt-5">
+        <HeadlineSection article={mockArticles.slice(0, 5)} client:visible />
+        <Fragment>
+            <VListed articles={mockArticles} client:visible />
+            <div class="" slot="sidebar">
+                <div class="aspect-4/3">
+                    <Galery galery={mockArticles.slice(0, 5)} client:visible />
+                </div>
+                <AdsSection>
+                    <VListed articles={mockArticles} client:visible />
+                </AdsSection>
+            </div>
+        </Fragment>
+        <HListed articles={mockArticles.slice(0, 5)} client:visible />
+        <Fragment>
+            <VListed articles={mockArticles} client:visible />
+            <div class="" slot="sidebar">
+                <div class="aspect-4/3">
+                    <Galery galery={mockArticles.slice(0, 5)} client:visible />
+                </div>
+                <AdsSection>
+                    <VListed articles={mockArticles} client:visible />
+                </AdsSection>
+            </div>
+        </Fragment>
+    </ArticleContainer>
+    <ArticleFooter />
 </Layout>
-
-<!-- <ArticlesPageLayout>
-    <ArticlesPageHeader
-        breadcrumb={[
-            { label: "Beranda", href: "/" },
-            { label: "Artikel & Wawasan" },
-        ]}
-        title="Artikel & Wawasan"
-        subtitle="Gagasan, pengalaman, dan perkembangan terbaru."
-        slot="header"
-    />
-    <div slot="toolbar">
-        <ArticleSearchBar
-            value={""}
-            onChange={() => {}}
-            onClear={() => {}}
-        />
-        <CategoryFilter
-            categories={[
-                {
-                    label: "social",
-                    slug: "sosial",
-                },
-                {
-                    label: "Tentang Kami",
-                    slug: "pendidikan",
-                },
-                {
-                    label: "Laporan",
-                    slug: "perspektif",
-                },
-                {
-                    label: "Teknologi",
-                    slug: "teknologi",
-                },
-            ]}
-            active="semua"
-            onSelect={() => {}}
-        />
-    </div>
-    {
-        Articles.map((a, i) => {
-            if (a.isFeatured) {
-                return (
-                    <FeaturedArticleCard
-                        slot={"featured"}
-                        onToggleBookmark={() => {}}
-                        isBookmarked={true}
-                        article={{
-                            category: { label: "social", slug: "sosial" },
-                            readingTimeMinutes: 1,
-                            title: "article ",
-                            excerpt: "Social",
-                            href: "#",
-                            id: "1",
-                            slug: "1",
-                            thumbnail: {
-                                src: "/assets/preview/web-prev-1.png",
-                                alt: "Social",
-                                width: 1170,
-                                height: 658,
-                            },
-                            publishedAt: new Date().toISOString(),
-                            isFeatured: true,
-                        }}
-                    />
-                );
-            }
-        })
-    }
-    <ArticleGrid
-        articles={Articles.filter((a) => !a.isFeatured)}
-        bookmarkedIds={new Set()}
-        onToggleBookmark={onBookMark}
-    />
-</ArticlesPageLayout> -->
