@@ -62,6 +62,7 @@ export default function HeadlineSection({ article }: { article: Article[] }) {
                                 <ArticleThumbnail
                                     image={article.image}
                                     priority={true}
+                                    stats={article.stats}
                                     // 3. Pastikan gambar memenuhi container (absolute inset-0 atau w-full h-full object-cover)
                                     className="absolute inset-0 w-full h-full object-cover z-0"
                                 />
@@ -85,9 +86,10 @@ export default function HeadlineSection({ article }: { article: Article[] }) {
             {/* 3. Stream Articles (Grid 5 Kolom di Desktop) */}
             <div className="lg:grid hidden grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                 {article.map((article) => (
-                    <article
+                    <a
                         key={article.id}
                         className="flex flex-col group cursor-pointer"
+                        href={article.url ? article.url : `/articles/${article.slug}`}
                     >
                         {/* Thumbnail Gambar */}
                         <ArticleThumbnail image={article.image}
@@ -99,7 +101,7 @@ export default function HeadlineSection({ article }: { article: Article[] }) {
                         <h3 className="text-sm font-bold leading-snug text-gray-900 line-clamp-4 group-hover:text-blue-600 transition-colors">
                             {article.title}
                         </h3>
-                    </article>
+                    </a>
                 ))}
             </div>
 

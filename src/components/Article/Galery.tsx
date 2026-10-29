@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import type { Article } from "../../types/article/entity";
+import type { Article, ArticleStats } from "../../types/article/entity";
 import { useDragSlider } from "../../hooks/useDrag";
 import { ArticleThumbnail } from "./Thubnail";
 
@@ -57,6 +57,7 @@ export default function GalerySection({ galery }: { galery: Article[] }) {
                             <ArticleThumbnail
                                 image={item.image}
                                 priority={true}
+                                stats={item.stats}
                                 // 3. Pastikan gambar memenuhi container (absolute inset-0 atau w-full h-full object-cover)
                                 className="absolute inset-0 w-full h-full object-cover z-0"
                             />

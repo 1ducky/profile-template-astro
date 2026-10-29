@@ -1,6 +1,6 @@
 ---
 import type { Article } from "../../types/article/entity"; // Sesuaikan path types Anda
-import { ArticleThumbnail } from "../articles/Thubnail";
+import { ArticleThumbnail } from "../Article/Thubnail";
 
 interface Props {
     /** Daftar artikel yang akan ditampilkan */
@@ -36,11 +36,15 @@ function timeAgo(dateString: string) {
 <div class="lg:grid hidden grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
     {
         articles.map((article) => (
-            <article class="flex flex-col group cursor-pointer">
+            <a
+                href={article.url ? article.url : `/articles/${article.slug}`}
+                class="flex flex-col group cursor-pointer"
+            >
                 {/* Thumbnail Gambar */}
                 <ArticleThumbnail
                     image={article.image}
                     priority={false}
+                    stats={article.stats}
                     className="w-full h-full object-cover "
                 />
 
@@ -48,7 +52,7 @@ function timeAgo(dateString: string) {
                 <h3 class="text-sm font-bold leading-snug text-gray-900 line-clamp-4 group-hover:text-blue-600 transition-colors">
                     {article.title}
                 </h3>
-            </article>
+            </a>
         ))
     }
 </div>

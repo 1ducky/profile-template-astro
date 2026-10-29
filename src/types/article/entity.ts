@@ -88,5 +88,6 @@ export interface Article {
     // --- Engagement ---
     stats?: ArticleStats;
 
-    relatedIds?: string[];
+    related?: Article[];
+    Content?: string; //Markdown
 }

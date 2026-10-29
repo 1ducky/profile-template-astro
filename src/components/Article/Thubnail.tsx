@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import type { ArticleImage } from "../../types/article/entity";
+import type { ArticleImage, ArticleStats } from "../../types/article/entity";
+import { Eye, MessageCircle } from "lucide-react";
 
 interface Props {
     image?: ArticleImage
+    stats?: ArticleStats;
     priority?: boolean;
     className?: string;
 }
 
-export function ArticleThumbnail({ image, priority = false, className = "" }: Props) {
+export function ArticleThumbnail({ image, stats, priority = false, className = "" }: Props) {
     const [isError, setIsError] = useState(false);
 
     // Anggap gambar tidak ada jika data image kosong atau gagal dimuat
@@ -43,6 +45,19 @@ export function ArticleThumbnail({ image, priority = false, className = "" }: Pr
                     >
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
+                </div>
+            )}
+            {stats && (
+
+                <div className="stat flex gap-2 absolute bottom-0 left-0 right-0 bg-surface p-2">
+                    <span className="flex items-center gap-1 text-primary text-xs">
+                        <Eye size={12} />
+                        <span>{stats.views}</span>
+                    </span>
+                    <span className="flex items-center gap-1 text-primary text-xs">
+                        <MessageCircle size={12} />
+                        <span>{stats.comments}</span>
+                    </span>
                 </div>
             )}
         </div>

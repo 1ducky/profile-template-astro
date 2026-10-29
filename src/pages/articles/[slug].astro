@@ -1,0 +1,89 @@
+---
+import AdsSection from "../../components/Article/Ads";
+import Content from "../../components/Article/Content.astro";
+import GalerySection from "../../components/Article/Galery";
+import VListed from "../../components/Article/VListed.astro";
+import { mockArticles } from "../../data/article/Articles";
+import Fragment from "../../layouts/Article/Fragment.astro";
+import Layout from "../../layouts/Layout.astro";
+
+export function getStaticPaths() {
+    return mockArticles.map((article) => ({
+        params: { slug: article.slug },
+    }));
+}
+
+const { slug } = Astro.params;
+
+const article = mockArticles.find((article) => article.slug === slug);
+
+if (!article) {
+    return Astro.redirect("/not-found");
+}
+
+article.Content = `
+## Tantangan Digitalisasi
+
+Digitalisasi bukan sekadar memindahkan proses manual ke sistem digital.
+
+### Dampak bagi Sekolah
+![Kegiatan digitalisasi pendidikan](/assets/preview/web-prev-3.png)
+
+- Administrasi lebih efisien.
+- Data lebih mudah diakses.
+
+> Teknologi harus menyelesaikan masalah nyata.
+`;
+---
+
+<Layout title={article.title}>
+    <Fragment>
+        <main class="mx-auto max-w-3xl px-4 py-10">
+            <header class="mb-8">
+                <p>{article.category}</p>
+                <h1 class="text-3xl font-bold">{article.title}</h1>
+                <p>{article.excerpt}</p>
+                <p class="mt-4 text-sm">
+                    Oleh {article.author.name}
+                </p>
+                <img
+                    src={article.image?.src || ""}
+                    alt={article.image?.alt || ""}
+                    class="mt-4"
+                />
+            </header>
+
+            <Content content={article.Content ? article.Content : ""} />
+            {
+                article.related?.map((article) => (
+                    <>
+                        <span>Baca Juga</span>
+                        <a href={`/articles/${article.slug}`}>
+                            {article.title}
+                        </a>
+                    </>
+                ))
+            }
+        </main>
+
+        <div class="" slot="sidebar">
+            <div class="aspect-4/3">
+                <GalerySection
+                    galery={mockArticles.slice(0, 5)}
+                    client:visible
+                />
+            </div>
+            <AdsSection>
+                <VListed articles={mockArticles} client:visible />
+            </AdsSection>
+        </div>
+    </Fragment>
+    <Fragment>
+        <VListed articles={mockArticles} client:visible />
+        <div class="" slot="sidebar">
+            <AdsSection>
+                <VListed articles={mockArticles} client:visible />
+            </AdsSection>
+        </div>
+    </Fragment>
+</Layout>

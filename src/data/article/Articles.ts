@@ -21,12 +21,17 @@ export const mockArticleNews: Article = {
     subCategory: "Adventure",
     badges: ["Eksklusif", "Laporan Khusus"],
     tags: ["#DiswayBusinessAdventures", "#China", "#Tianjin"],
-    image: mockImages.beijingHero,
+    image: {
+        src: "/assets/demo/sea.png",
+        alt: "Harga Beras Naik 5 Persen di Pasar Tradisional",
+        caption: "Harga Beras Naik 5 Persen di Pasar Tradisional",
+        aspectRatio: "16/9",
+    },
     author: mockAuthors.dahlanIskan,
     publishedAt: "2026-10-28T14:30:00+07:00",
     updatedAt: "2026-10-28T16:10:00+07:00",
     stats: mockStats.viral,
-    relatedIds: ["1002", "1003"],
+    related: [],
 };
 
 /** 2) GALLERY — foto jurnalistik */
@@ -39,7 +44,7 @@ export const mockArticleGallery: Article = {
     category: "Foto",
     subCategory: "Jurnalistik",
     tags: ["#Tianjin", "#Pelabuhan", "#PhotoEssay"],
-    image: mockImages.beijingHero,
+    image: mockImages.galleryEpaper,
     author: mockAuthors.biroBeijing,
     publishedAt: "2026-10-28T09:00:00+07:00",
     stats: mockStats.medium,
@@ -59,7 +64,7 @@ export const mockArticleVideo: Article = {
     author: mockAuthors.redaksi,
     publishedAt: "2026-10-27T20:00:00+07:00",
     stats: mockStats.medium,
-    relatedIds: ["1001"],
+    related: [],
 };
 
 /** 4) EPAPER — edisi e-paper */
@@ -87,6 +92,7 @@ export const mockArticleColumn: Article = {
     subCategory: "Dahlan Iskan",
     badges: ["Kolom"],
     tags: ["#DahlanIskan", "#China"],
+    image: mockImages.beijingHero,
     author: mockAuthors.dahlanIskan,
     publishedAt: "2026-10-28T06:00:00+07:00",
     stats: mockStats.medium,
@@ -107,7 +113,24 @@ export const mockArticleSports: Article = {
     author: mockAuthors.mayaSaraswati,
     publishedAt: "2026-10-28T03:15:00+07:00",
     stats: { views: 987_600, comments: 2_341, shares: 8_920 },
-    relatedIds: ["1005"],
+    related: [],
+};
+
+export const mockArticleRelate: Article = {
+    id: "1006",
+    slug: "relating",
+    contentType: "article",
+    title: "Harry Kane Akhirnya Raih Ballon d'Or 2026",
+    excerpt: "Setelah bertahun-tahun dianggap 'selalu hampir', Kane menutup musim terbaiknya dengan trofi paling bergengsi.",
+    category: "Olahraga",
+    subCategory: "Sepak Bola",
+    badges: ["Breaking", "Headline"],
+    tags: ["#BallonDor2026", "#HarryKane"],
+    image: mockImages.ballonDor,
+    author: mockAuthors.mayaSaraswati,
+    publishedAt: "2026-10-28T03:15:00+07:00",
+    stats: { views: 987_600, comments: 2_341, shares: 8_920 },
+    related: [mockArticleNews, mockArticleVideo],
 };
 
 /** 7) ARTICLE — minimal (tanpa image, excerpt, stats) */
@@ -130,6 +153,12 @@ export const mockArticleCardOnly: Article = {
     excerpt: "Kenaikan dipicu musim panen yang mundur dan biaya distribusi.",
     category: "Ekonomi",
     badges: ["Terkini"],
+    image: {
+        src: "/assets/demo/beras.png",
+        alt: "Harga Beras Naik 5 Persen di Pasar Tradisional",
+        caption: "Harga Beras Naik 5 Persen di Pasar Tradisional",
+        aspectRatio: "16/9",
+    },
     author: mockAuthors.mayaSaraswati,
     publishedAt: "2026-10-28T11:45:00+07:00",
     stats: mockStats.fresh,
@@ -147,6 +176,7 @@ export const mockArticles: Article[] = [
     mockArticleVideo,         // video/podcast
     mockArticleEpaper,        // epaper
     mockArticleMinimal,       // minimal
+    mockArticleRelate,       // minimal
 ];
 
 /** Filter per contentType — untuk testing render komponen. */
@@ -162,8 +192,8 @@ export const mockArticleMap: Record<string, Article> = Object.fromEntries(
     mockArticles.map((a) => [a.id, a])
 );
 
-export function getRelated(article: Article): Article[] {
-    return (article.relatedIds ?? [])
-        .map((id) => mockArticleMap[id])
-        .filter(Boolean);
-}
+// export function getRelated(article: Article): Article[] {
+//     return (article.relatedIds ?? [])
+//         .map((id) => mockArticleMap[id])
+//         .filter(Boolean);
+// }
