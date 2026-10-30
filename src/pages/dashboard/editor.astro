@@ -1,0 +1,16 @@
+---
+import Layout from "../../layouts/dashboard/Editor.astro";
+import Editor from "../../components/Editor/EditorParent";
+---
+
+<Layout
+    title="Editor"
+    description="Editor"
+    keywords={["editor"]}
+    type="website"
+    noIndex
+>
+    <main>
+        <Editor client:only="react" />
+    </main>
+</Layout>
