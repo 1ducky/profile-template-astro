@@ -1,5 +1,6 @@
 import { usePublisher, insertImage$, Button } from "@mdxeditor/editor";
 import { useImageUploader } from "./ImageUploader/ImageProvider";
+import type { ArticleImage } from "../../types/article/entity";
 
 export function CustomImageButton() {
     const insertImage = usePublisher(insertImage$);
@@ -20,5 +21,27 @@ export function CustomImageButton() {
         <Button title="Upload gambar" onClick={handleClick}>
             Upload gambar
         </Button>
+    );
+}
+
+export function InsertImageButton({ onSuccess }: { onSuccess: (imageUrl: ArticleImage) => void }) {
+
+    const { open } = useImageUploader();
+
+    async function handleClick() {
+        const img = await open({ title: "Sisipkan gambar" });
+        if (!img) return; // pengguna menutup dialog tanpa memilih
+
+        onSuccess({
+            src: img.url,      // URL final dari backend (atau URL eksternal)
+            alt: img.alt,
+            caption: img.title,
+        });
+    }
+
+    return (
+        <button title="Upload gambar" onClick={handleClick}>
+            Upload gambar
+        </button>
     );
 }

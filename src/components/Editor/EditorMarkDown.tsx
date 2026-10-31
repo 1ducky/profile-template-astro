@@ -45,7 +45,7 @@ async function previewUploadImage(file: File): Promise<string> {
     return URL.createObjectURL(file)
 }
 
-export default function ArticleEditor({
+export default function EditorMarkdown({
     markdown,
     onChange,
 }: ArticleEditorProps) {
