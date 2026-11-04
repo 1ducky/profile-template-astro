@@ -197,6 +197,7 @@ export default function EditorForm({
         setSubmitting(kind);
         try {
             const values = buildValues();
+            console.log(values)
             if (kind === "draft") await onSaveDraft?.(values);
             else await onPublish?.(values);
         } finally {
@@ -421,7 +422,7 @@ export default function EditorForm({
                     <section className="flex flex-col gap-3 rounded-2xl border border-[#E5E7EB] bg-white p-5 shadow-[0_4px_16px_rgba(31,41,55,0.06)] sm:p-7">
                         <h2 className="text-lg font-semibold">Isi artikel</h2>
                         <EditorMarkdown
-                            markdown={markdown}
+                            markdown={initialValues?.Content ?? ""}
                             onChange={(md) => setMarkdown(md)}
                         />
 

@@ -11,6 +11,6 @@ import Layout from "../../layouts/dashboard/Editor.astro";
     noIndex
 >
     <main>
-        <EditorForm client:only="react" />
+        <EditorForm client:only="react" onPublish={(res) => console.log(res)} />
     </main>
 </Layout>

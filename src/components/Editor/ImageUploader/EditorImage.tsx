@@ -50,7 +50,7 @@ const inputCls =
 
 export default function UploadImage({
     endpoint = "/api/upload",
-    fieldName = "file",
+    fieldName = "image",
     maxSizeMB = 5,
     name = "image",
     onChange,
@@ -131,14 +131,10 @@ export default function UploadImage({
     function DemoUpload() {
         if (!file || !validateAlt()) return;
 
-        const body = new FormData();
-        body.append(fieldName, file);
-        body.append("title", title.trim());
-        body.append("alt", alt.trim());
-
         const url = URL.createObjectURL(file)
 
         setFinalUrl(url);
+        console.log(url)
         setStatus("done");
         setMessage("");
         onChange?.({ url, title: title.trim(), alt: alt.trim(), source: "upload" });
@@ -148,8 +144,6 @@ export default function UploadImage({
 
         const body = new FormData();
         body.append(fieldName, file);
-        body.append("title", title.trim());
-        body.append("alt", alt.trim());
 
         const xhr = new XMLHttpRequest();
         xhrRef.current = xhr;

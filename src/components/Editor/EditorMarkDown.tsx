@@ -17,6 +17,7 @@ import {
 
 import "@mdxeditor/editor/style.css";
 import { CustomImageButton } from "./EditorImage";
+import { ResolveUrl } from "../../utils/resolve-url";
 
 
 interface ArticleEditorProps {
@@ -62,6 +63,9 @@ export default function EditorMarkdown({
                 linkDialogPlugin(),
                 imagePlugin({
                     imageUploadHandler: previewUploadImage,
+                    imagePreviewHandler: async (imageSource) => {
+                        return ResolveUrl(imageSource, "http://localhost:8080/assets/")
+                    },
                     disableImageResize: true
                 }),
                 toolbarPlugin({
@@ -72,7 +76,6 @@ export default function EditorMarkdown({
                             <BoldItalicUnderlineToggles />
                             <ListsToggle />
                             <CreateLink />
-                            <InsertImage />
                             <CustomImageButton />
                         </>
                     ),

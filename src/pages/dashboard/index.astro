@@ -12,6 +12,9 @@ const days = Array.from({ length: 30 }, (_, i) => `${i + 1} Okt`);
 const a = days.map((_, i) =>
     Math.round(110 + 25 * Math.sin(i / 3) + (i % 5) * 4),
 );
+const a2 = days.map((_, i) =>
+    Math.round(110 + 25 * Math.sin(i / 3) + (i % 10) * 3),
+);
 const b = a.map((v) => Math.round(v * 0.48));
 const months = ["Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt"];
 const mA = [3150, 3700, 3750, 3900, 3700, 4050, 3550];
@@ -32,6 +35,11 @@ const mB = [1780, 2080, 2100, 2200, 2080, 2300, 1990];
                             labels={days}
                             series={[
                                 { key: "a", label: "Anonim", values: a },
+                                {
+                                    key: "c",
+                                    label: "other",
+                                    values: a2,
+                                },
                                 { key: "b", label: "Unique", values: b },
                             ]}
                             ariaLabel="Grafik garis harian, 30 hari terakhir"
