@@ -1,3 +1,4 @@
+import { success } from "astro:schema";
 import { useEffect, useId, useRef, useState, type DragEvent } from "react";
 
 /**
@@ -35,7 +36,24 @@ export type UploadImageProps = {
 type Mode = "file" | "url";
 type Status = "idle" | "uploading" | "done" | "error";
 type ExtState = "idle" | "loading" | "ok" | "bad";
-type UploadResponse = { url?: string; error?: string } | null;
+type ErrorResponse = {
+  status: "error";
+  code: string;
+  message: string;
+  request_id: string;
+};
+
+type SuccessResponse<T> = {
+  status: "success";
+  data: T;
+};
+
+type UploadData = {
+  filekey: string;      // wajib kalau sukses
+  metadata?: unknown;
+};
+
+type UploadResponse = SuccessResponse<UploadData> | ErrorResponse;
 
 const ACCEPT = ["image/jpeg", "image/png", "image/webp", "image/avif", "image/gif"] as const;
 
@@ -155,19 +173,21 @@ export default function UploadImage({
         };
         xhr.onload = () => {
             const res = xhr.response as UploadResponse;
-            if (xhr.status >= 200 && xhr.status < 300 && res?.url) {
-                setFinalUrl(res.url);
+            console.log(res)
+            if (xhr.status >= 200 && xhr.status < 300 && res?.status == "success") {
+                setFinalUrl(res?.data?.filekey);
                 setStatus("done");
                 setMessage("");
-                onChange?.({ url: res.url, title: title.trim(), alt: alt.trim(), source: "upload" });
+                onChange?.({ url: res?.data?.filekey, title: title.trim(), alt: alt.trim(), source: "upload" });
             } else {
                 setStatus("error");
                 setMessage(
-                    res?.error ||
+                    res?.status == "error" ?
                     (xhr.status === 413
                         ? "File terlalu besar untuk diterima server."
-                        : `Unggah gagal (kode ${xhr.status}). Coba lagi sebentar lagi.`),
+                        : `Unggah gagal (kode ${xhr.status}). Coba lagi sebentar lagi. RequestID: ${res.request_id} ERRCODE:${res.code}`): "Kesalahan Internal."
                 );
+                console.log(res?.status == "error" && res)
             }
         };
         xhr.onerror = () => {
@@ -414,7 +434,7 @@ export default function UploadImage({
             {/* Aksi */}
             <div className="flex flex-wrap gap-2.5 max-md:[&>button]:basis-full">
                 {mode === "file" && file && status !== "done" && (
-                    <button type="button" className={btnPrimary} disabled={uploading} onClick={DemoUpload}>
+                    <button type="button" className={btnPrimary} disabled={uploading} onClick={upload}>
                         {uploading ? "Mengunggah…" : status === "error" ? "Coba unggah lagi" : "Unggah gambar"}
                     </button>
                 )}

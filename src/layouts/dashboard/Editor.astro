@@ -25,7 +25,8 @@ import "../../global.css";
         <slot />
         <ImageUploaderProvider
             client:load
-            endpoint="/api/upload"
+            endpoint="http://localhost:8080/assets/upload"
+            fieldName="image"
             maxSizeMB={5}
         />
     </body>
