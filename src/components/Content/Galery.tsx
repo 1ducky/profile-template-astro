@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useDragSlider } from "../../hooks/useDrag";
 import { ArticleThumbnail } from "./Thubnail";
-import type { ArticleResponse } from "../../api-client/contract/article";
+import type { ArticleResponse } from "../../contract/article";
 import { ResolveUrlAsset } from "../../utils/resolve-url";
 
 export default function GalerySection({ galery }: { galery: ArticleResponse[] }) {

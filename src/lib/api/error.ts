@@ -1,4 +1,5 @@
-import type { ErrorResponse } from "./contract/common";
+import type { ErrorResponse } from "./types";
+
 
 
 export class ApiError extends Error {

@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import type { ArticleField } from "../../api-client/contract/article";
+import type { ArticleField } from "../../contract/article";
 import { InsertImageButton } from "./EditorImage";
 import { ResolveUrlAsset } from "../../utils/resolve-url";
 import { TagInput, type TagInputHandle } from "./EditorTagInput";

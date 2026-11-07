@@ -12,7 +12,7 @@ import VListed from "../../components/Content/VListed.astro";
 import Fragment from "../../layouts/Article/Fragment.astro";
 import HListed from "../../components/Content/HListed.astro";
 import { GetListArticle } from "../../app/feature/article";
-import type { ArticleListResponse } from "../../api-client/contract/article";
+import type { ArticleListResponse } from "../../contract/article";
 
 // try {
 //     const res = await GetListArticle();
@@ -23,7 +23,9 @@ import type { ArticleListResponse } from "../../api-client/contract/article";
 var articlesList: ArticleListResponse | null = null;
 try {
     articlesList = await GetListArticle();
-} catch (e) {}
+} catch (e) {
+    console.log(e);
+}
 
 if (!articlesList) {
     return Astro.redirect("/not-found");
