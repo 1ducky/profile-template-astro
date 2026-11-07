@@ -1,5 +1,5 @@
 ---
-import EditorForm from "../../components/Editor/EditorForm";
+import { EditorArticle } from "../../components/Editor/EditorArticle";
 import Layout from "../../layouts/dashboard/Editor.astro";
 ---
 
@@ -11,6 +11,9 @@ import Layout from "../../layouts/dashboard/Editor.astro";
     noIndex
 >
     <main>
-        <EditorForm client:only="react" onPublish={(res) => console.log(res)} />
+        <EditorArticle
+            client:only="react"
+            onPublish={(res) => console.log(res)}
+        />
     </main>
 </Layout>

@@ -12,18 +12,21 @@ import {
     BlockTypeSelect,
     CreateLink,
     InsertImage,
-    linkDialogPlugin
+    linkDialogPlugin,
+    type MDXEditorMethods
 } from "@mdxeditor/editor";
 
 import "@mdxeditor/editor/style.css";
 import { CustomImageButton } from "./EditorImage";
-import { ResolveUrl } from "../../utils/resolve-url";
+import { ResolveUrlAsset } from "../../utils/resolve-url";
+import type { Ref } from "react";
 
 
 interface ArticleEditorProps {
     markdown: string;
-    onChange: (markdown: string) => void;
+    ref: Ref<MDXEditorMethods>
 }
+
 
 async function uploadImage(file: File): Promise<string> {
     const formData = new FormData();
@@ -48,13 +51,13 @@ async function previewUploadImage(file: File): Promise<string> {
 
 export default function EditorMarkdown({
     markdown,
-    onChange,
+    ref,
 }: ArticleEditorProps) {
     return (
         <MDXEditor
 
             markdown={markdown}
-            onChange={onChange}
+            ref={ref}
             plugins={[
                 headingsPlugin(),
                 listsPlugin(),
@@ -64,7 +67,7 @@ export default function EditorMarkdown({
                 imagePlugin({
                     imageUploadHandler: previewUploadImage,
                     imagePreviewHandler: async (imageSource) => {
-                        return ResolveUrl(imageSource, "http://localhost:8080/assets/")
+                        return ResolveUrlAsset(imageSource)
                     },
                     disableImageResize: true
                 }),

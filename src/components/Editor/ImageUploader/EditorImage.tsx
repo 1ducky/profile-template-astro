@@ -1,5 +1,6 @@
 import { success } from "astro:schema";
 import { useEffect, useId, useRef, useState, type DragEvent } from "react";
+import { ResolveUrlAsset } from "../../../utils/resolve-url";
 
 /**
  * UploadImage — island Astro (client:load / client:visible).
@@ -37,20 +38,20 @@ type Mode = "file" | "url";
 type Status = "idle" | "uploading" | "done" | "error";
 type ExtState = "idle" | "loading" | "ok" | "bad";
 type ErrorResponse = {
-  status: "error";
-  code: string;
-  message: string;
-  request_id: string;
+    status: "error";
+    code: string;
+    message: string;
+    request_id: string;
 };
 
 type SuccessResponse<T> = {
-  status: "success";
-  data: T;
+    status: "success";
+    data: T;
 };
 
 type UploadData = {
-  filekey: string;      // wajib kalau sukses
-  metadata?: unknown;
+    filekey: string;      // wajib kalau sukses
+    metadata?: unknown;
 };
 
 type UploadResponse = SuccessResponse<UploadData> | ErrorResponse;
@@ -183,9 +184,9 @@ export default function UploadImage({
                 setStatus("error");
                 setMessage(
                     res?.status == "error" ?
-                    (xhr.status === 413
-                        ? "File terlalu besar untuk diterima server."
-                        : `Unggah gagal (kode ${xhr.status}). Coba lagi sebentar lagi. RequestID: ${res.request_id} ERRCODE:${res.code}`): "Kesalahan Internal."
+                        (xhr.status === 413
+                            ? "File terlalu besar untuk diterima server."
+                            : `Unggah gagal (kode ${xhr.status}). Coba lagi sebentar lagi. RequestID: ${res.request_id} ERRCODE:${res.code}`) : "Kesalahan Internal."
                 );
                 console.log(res?.status == "error" && res)
             }
@@ -329,9 +330,9 @@ export default function UploadImage({
 
             {/* Preview */}
             {shownPreview && (
-                <figure className="relative m-0 aspect-[16/10] overflow-hidden rounded-card border border-text-muted/20 bg-bg">
+                <figure className="relative m-0 aspect-16/10 overflow-hidden rounded-card border border-text-muted/20 bg-bg">
                     <img
-                        src={shownPreview}
+                        src={ResolveUrlAsset(shownPreview)}
                         alt={alt.trim() || "Pratinjau gambar"}
                         onLoad={() => {
                             if (mode === "url") {

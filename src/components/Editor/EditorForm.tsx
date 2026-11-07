@@ -418,7 +418,7 @@ export default function EditorForm({
                 </section>
 
                 {/* Isi artikel (hanya mode tulis) */}
-                {mode === "write" && (
+                {/* {mode === "write" && (
                     <section className="flex flex-col gap-3 rounded-2xl border border-[#E5E7EB] bg-white p-5 shadow-[0_4px_16px_rgba(31,41,55,0.06)] sm:p-7">
                         <h2 className="text-lg font-semibold">Isi artikel</h2>
                         <EditorMarkdown
@@ -428,7 +428,7 @@ export default function EditorForm({
 
                         {err("content") && <p className="text-sm text-[#B91C1C]">{err("content")}</p>}
                     </section>
-                )}
+                )} */}
 
                 {/* Aksi */}
                 <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">

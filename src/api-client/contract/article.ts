@@ -24,3 +24,14 @@ export interface ArticleListResponse {
     page_size: number;
   };
 }
+
+export interface ArticleField {
+  title: string,
+  excerpt: string,
+  category: string,
+  badges: string[],
+  tags: string[],
+  cover: string,
+  content: string,
+  url: string
+}
