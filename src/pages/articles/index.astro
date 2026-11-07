@@ -4,39 +4,65 @@ import ArticleContainer from "../../layouts/Article/Container.astro";
 import ArticleFooter from "../../layouts/Article/Footer.astro";
 import ArticleHeader from "../../layouts/Article/Header.astro";
 
-import HeadlineSection from "../../components/Article/Headline";
-import Galery from "../../components/Article/Galery";
-import AdsSection from "../../components/Article/Ads";
-import VListed from "../../components/Article/VListed.astro";
-import { mockArticles } from "../../data/article/Articles";
+import HeadlineSection from "../../components/Content/Headline";
+import Galery from "../../components/Content/Galery";
+import AdsSection from "../../components/Content/Ads";
+import VListed from "../../components/Content/VListed.astro";
+// import { mockArticles } from "../../data/article/Articles";
 import Fragment from "../../layouts/Article/Fragment.astro";
-import HListed from "../../components/Article/HListed.astro";
+import HListed from "../../components/Content/HListed.astro";
+import { GetListArticle } from "../../app/feature/article";
+import type { ArticleListResponse } from "../../api-client/contract/article";
+
+// try {
+//     const res = await GetListArticle();
+//     console.log(res);
+// } catch (e) {
+//     console.log(e);
+// }
+var articlesList: ArticleListResponse | null = null;
+try {
+    articlesList = await GetListArticle();
+} catch (e) {}
+
+if (!articlesList) {
+    return Astro.redirect("/not-found");
+}
 ---
 
 <Layout>
     <ArticleHeader />
     <ArticleContainer class="mt-5">
-        <HeadlineSection article={mockArticles.slice(0, 5)} client:visible />
+        <HeadlineSection
+            article={articlesList.articles.slice(0, 5)}
+            client:visible
+        />
         <Fragment>
-            <VListed articles={mockArticles} client:visible />
+            <VListed articles={articlesList.articles} client:visible />
             <div class="" slot="sidebar">
                 <div class="aspect-4/3">
-                    <Galery galery={mockArticles.slice(0, 5)} client:visible />
+                    <Galery
+                        galery={articlesList.articles.slice(0, 5)}
+                        client:visible
+                    />
                 </div>
                 <AdsSection>
-                    <VListed articles={mockArticles} client:visible />
+                    <VListed articles={articlesList.articles} client:visible />
                 </AdsSection>
             </div>
         </Fragment>
-        <HListed articles={mockArticles.slice(0, 5)} client:visible />
+        <HListed articles={articlesList.articles.slice(0, 5)} client:visible />
         <Fragment>
-            <VListed articles={mockArticles} client:visible />
+            <VListed articles={articlesList.articles} client:visible />
             <div class="" slot="sidebar">
                 <div class="aspect-4/3">
-                    <Galery galery={mockArticles.slice(0, 5)} client:visible />
+                    <Galery
+                        galery={articlesList.articles.slice(0, 5)}
+                        client:visible
+                    />
                 </div>
                 <AdsSection>
-                    <VListed articles={mockArticles} client:visible />
+                    <VListed articles={articlesList.articles} client:visible />
                 </AdsSection>
             </div>
         </Fragment>

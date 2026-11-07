@@ -1,60 +1,61 @@
 ---
-import AdsSection from "../../components/Article/Ads";
-import Content from "../../components/Article/Content.astro";
-import GalerySection from "../../components/Article/Galery";
-import VListed from "../../components/Article/VListed.astro";
+import type {
+    ArticleListResponse,
+    ArticleResponse,
+} from "../../api-client/contract/article";
+import { GetBySlug, GetListArticle } from "../../app/feature/article";
+import AdsSection from "../../components/Content/Ads";
+import Content from "../../components/Content/Content.astro";
+import GalerySection from "../../components/Content/Galery";
+import VListed from "../../components/Content/VListed.astro";
 import { mockArticles } from "../../data/article/Articles";
 import Fragment from "../../layouts/Article/Fragment.astro";
 import Layout from "../../layouts/Layout.astro";
+import { ResolveUrlAsset } from "../../utils/resolve-url";
 
-export function getStaticPaths() {
-    return mockArticles.map((article) => ({
-        params: { slug: article.slug },
-    }));
-}
+export const prerender = false;
 
 const { slug } = Astro.params;
-
-const article = mockArticles.find((article) => article.slug === slug);
+var article: ArticleResponse | null = null;
+try {
+    article = await GetBySlug(slug || "");
+    console.log(article);
+} catch (e) {
+    console.log(e);
+}
 
 if (!article) {
     return Astro.redirect("/not-found");
 }
 
-article.Content = `
-## Tantangan Digitalisasi
+var articlesList: ArticleListResponse | null = null;
+try {
+    articlesList = await GetListArticle();
+} catch (e) {
+}
 
-Digitalisasi bukan sekadar memindahkan proses manual ke sistem digital.
-
-### Dampak bagi Sekolah
-![Kegiatan digitalisasi pendidikan](/assets/preview/web-prev-3.png)
-
-- Administrasi lebih efisien.
-- Data lebih mudah diakses.
-
-> Teknologi harus menyelesaikan masalah nyata.
-`;
+// console.log(ResolveUrlAsset(article.cover))
 ---
 
 <Layout title={article.title}>
     <Fragment>
-        <main class="mx-auto max-w-3xl px-4 py-10">
+        <main class="mx-auto max-w-4xl px-4 py-10">
             <header class="mb-8">
                 <p>{article.category}</p>
                 <h1 class="text-3xl font-bold">{article.title}</h1>
                 <p>{article.excerpt}</p>
                 <p class="mt-4 text-sm">
-                    Oleh {article.author.name}
+                    Oleh {article.author.username}
                 </p>
                 <img
-                    src={article.image?.src || ""}
-                    alt={article.image?.alt || ""}
-                    class="mt-4"
+                    src={ResolveUrlAsset(article.cover)}
+                    alt={article.title}
+                    class="mt-4 w-full px-3"
                 />
             </header>
 
-            <Content content={article.Content ? article.Content : ""} />
-            {
+            <Content content={article.content || ""} />
+            <!-- {
                 article.related?.map((article) => (
                     <>
                         <span>Baca Juga</span>
@@ -63,27 +64,36 @@ Digitalisasi bukan sekadar memindahkan proses manual ke sistem digital.
                         </a>
                     </>
                 ))
-            }
+            } -->
         </main>
-
-        <div class="" slot="sidebar">
-            <div class="aspect-4/3">
-                <GalerySection
-                    galery={mockArticles.slice(0, 5)}
-                    client:visible
-                />
-            </div>
-            <AdsSection>
-                <VListed articles={mockArticles} client:visible />
-            </AdsSection>
-        </div>
+        {
+            articlesList && (
+                <div class="" slot="sidebar">
+                    <div class="aspect-4/3">
+                        <GalerySection
+                            galery={articlesList.articles.slice(0, 5)}
+                            client:visible
+                        />
+                    </div>
+                    <AdsSection>
+                        <VListed
+                            articles={articlesList.articles}
+                            client:visible
+                        />
+                    </AdsSection>
+                </div>
+            )
+        }
     </Fragment>
     <Fragment>
-        <VListed articles={mockArticles} client:visible />
-        <div class="" slot="sidebar">
-            <AdsSection>
-                <VListed articles={mockArticles} client:visible />
-            </AdsSection>
-        </div>
+        {articlesList && (
+
+            <VListed articles={articlesList.articles} client:visible />
+            <div class="" slot="sidebar">
+                <AdsSection>
+                    <VListed articles={articlesList.articles} client:visible />
+                </AdsSection>
+            </div>
+        )}
     </Fragment>
 </Layout>
