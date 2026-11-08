@@ -1,6 +1,6 @@
 ---
-import { EditorArticle } from "../../components/Editor/EditorArticle";
 import Layout from "../../layouts/dashboard/Editor.astro";
+import { CreateArticle } from "./_publish";
 ---
 
 <Layout
@@ -11,9 +11,6 @@ import Layout from "../../layouts/dashboard/Editor.astro";
     noIndex
 >
     <main>
-        <EditorArticle
-            client:only="react"
-            onPublish={(res) => console.log(res)}
-        />
+        <CreateArticle client:only="react" />
     </main>
 </Layout>

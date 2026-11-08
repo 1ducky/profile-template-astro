@@ -140,6 +140,7 @@ export function EditorArticle({ onPublish }: { onPublish: (req: ArticleField) =>
                     <Field label="Judul" htmlFor="title" error={undefined}>
                         <input
                             id="title"
+                            name="title"
                             placeholder="Judul yang jelas dan singkat"
                             className="w-full rounded-[10px] border border-[#D1D5DB] bg-white px-3.5 py-2.5 text-[15px] text-[#1F2937] placeholder:text-[#9CA3AF] outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                         />
@@ -154,6 +155,7 @@ export function EditorArticle({ onPublish }: { onPublish: (req: ArticleField) =>
                         >
                             <input
                                 id="url"
+                                name="url"
                                 type="url"
                                 inputMode="url"
                                 placeholder="https://youtube.com/watch?v=..."
@@ -169,6 +171,7 @@ export function EditorArticle({ onPublish }: { onPublish: (req: ArticleField) =>
                     >
                         <textarea
                             id="excerpt"
+                            name="url"
                             rows={3}
                             className={"w-full rounded-[10px] border border-[#D1D5DB] bg-white px-3.5 py-2.5 text-[15px] text-[#1F2937] placeholder:text-[#9CA3AF] outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" + `resize-y leading-relaxed`}
                         />
@@ -221,6 +224,7 @@ export function EditorArticle({ onPublish }: { onPublish: (req: ArticleField) =>
                         <Field label="Kategori" htmlFor="category" error={undefined}>
                             <input
                                 id="category"
+                                name="category"
                                 placeholder="mis. Teknologi"
                                 className={"w-full rounded-[10px] border border-[#D1D5DB] bg-white px-3.5 py-2.5 text-[15px] text-[#1F2937] placeholder:text-[#9CA3AF] outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"}
                             />

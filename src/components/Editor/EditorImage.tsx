@@ -13,7 +13,7 @@ export function CustomImageButton() {
         insertImage({
             src: img.url,      // URL final dari backend (atau URL eksternal)
             altText: img.alt,
-            title: img.title,
+            title: "",
         });
     }
 
@@ -40,7 +40,7 @@ export function InsertImageButton({ onSuccess }: { onSuccess: (imageUrl: Article
     }
 
     return (
-        <button title="Upload gambar" onClick={handleClick}>
+        <button type="button" title="Upload gambar" onClick={handleClick}>
             Upload gambar
         </button>
     );
