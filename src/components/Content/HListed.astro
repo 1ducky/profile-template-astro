@@ -1,6 +1,7 @@
 ---
 import type { ArticleResponse } from "../../contract/article";
 import { ResolveUrlAsset } from "../../utils/resolve-url";
+import ArticleMiniCard from "./MiniCard.tsx";
 import { ArticleThumbnail } from "./Thubnail";
 
 interface Props {
@@ -11,61 +12,14 @@ interface Props {
 }
 
 const { articles = [], title = "BERITA TERKINI" } = Astro.props;
-
-// ============================================================
-// UTILITY FUNGSI
-// ============================================================
-// Fungsi untuk mengubah ISO Date string menjadi format "X menit/jam lalu"
-function timeAgo(dateString: string) {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-
-    if (diffInSeconds < 60) return "Baru saja";
-
-    const diffInMinutes = Math.floor(diffInSeconds / 60);
-    if (diffInMinutes < 60) return `${diffInMinutes} menit`;
-
-    const diffInHours = Math.floor(diffInMinutes / 60);
-    if (diffInHours < 24) return `${diffInHours} jam`;
-
-    const diffInDays = Math.floor(diffInHours / 24);
-    return `${diffInDays} hari`;
-}
 ---
 
-<div class="lg:grid hidden grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+<div
+    class="lg:grid hidden grid-cols-2 md:grid-cols-3 lg:grid-cols-5 items-center gap-4 px-2"
+>
     {
         articles.map((article) => (
-            <a
-                href={article.url ? article.url : `/articles/${article.slug}`}
-                class="flex flex-col group cursor-pointer"
-            >
-                {/* Thumbnail Gambar */}
-                <ArticleThumbnail
-                    image={{
-                        alt: article.title,
-                        src: ResolveUrlAsset(article.cover),
-                        caption: title,
-                    }}
-                    priority={false}
-                    className="w-full h-full object-cover "
-                />
-
-                {/* Judul */}
-                <h3 class="text-sm font-bold leading-snug text-gray-900 line-clamp-4 group-hover:text-blue-600 transition-colors">
-                    {article.title}
-                </h3>
-
-                <span class="text-[12px] font-semibold text-[#e74c3c] uppercase tracking-wide">
-                    {article.category || "UMUM"}
-                </span>
-                {article.published_at && (
-                    <span class="text-[13px] text-gray-500 font-normal">
-                        {timeAgo(article.published_at)}
-                    </span>
-                )}
-            </a>
+            <ArticleMiniCard article={article} className="h-full" />
         ))
     }
 </div>

@@ -2,22 +2,22 @@
 /**
  * Header
  * - Fixed top, 3 baris: top bar (36px) + brand row (108px) + nav (48px) = 192px (--header-h).
- * - Menerima activeNavIndex untuk menandai menu aktif.
+ * - Menerima activePath untuk menandai menu aktif.
  *
  * BEHAVIOR NOTES (belum diimplementasikan):
  * - "Disway Network" button: klik → buka dropdown daftar jaringan (belum ada komponen).
  * - Search input: submit → navigasi ke /search?q=... (belum ada handler).
  * - "Kirim Opini" button: klik → mailto:redaksi@disway.id.
- * - Nav: horizontal scroll di mobile; active item ditandai via prop activeNavIndex.
+ * - Nav: horizontal scroll di mobile; active item ditandai via prop activePath.
  * - Social icons: link eksternal (placeholder #).
  */
-interface NavItem {
+export interface NavItem {
     label: string;
     path: string;
 }
 
 interface Props {
-    activeNavIndex?: number;
+    activePath?: string;
     navItems?: NavItem[];
 }
 
@@ -36,14 +36,14 @@ const defaultNav: NavItem[] = [
     { label: "INDEKS", path: "indeks" },
 ];
 
-const { activeNavIndex, navItems = defaultNav } = Astro.props;
+const { activePath = "feature", navItems = defaultNav } = Astro.props;
 ---
 
 <header
     class="bg-primary text-white backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"
 >
     <div
-        class="h-50 flex flex-col justify-between max-w-[1240px] mx-auto px-margin-mobile md:px-margin"
+        class="h-50 flex flex-col justify-between max-w-310 mx-auto px-margin-mobile md:px-margin"
     >
         <!-- ============ TOP BAR (36px) ============ -->
 
@@ -118,14 +118,14 @@ const { activeNavIndex, navItems = defaultNav } = Astro.props;
         </div>
 
         <!-- ============ NAV (48px) ============ -->
-        <!-- BEHAVIOR: horizontal scroll di mobile; item aktif ditandai via activeNavIndex -->
+        <!-- BEHAVIOR: horizontal scroll di mobile; item aktif ditandai via activePath -->
         <nav
             class="h-12 flex items-center gap-5 overflow-x-auto whitespace-nowrap scrollbar-none font-label-badge text-label-badge tracking-wider uppercase text-on-surface-variant"
         >
             {
                 navItems.map((item, i) => {
-                    const isActive = activeNavIndex
-                        ? i == activeNavIndex
+                    const isActive = activePath
+                        ? item.path == activePath
                         : i == 0;
                     const base = "py-space-sm transition-colors";
                     const cls = isActive
@@ -135,7 +135,7 @@ const { activeNavIndex, navItems = defaultNav } = Astro.props;
                         <a
                             class={cls}
                             data-path={item.path}
-                            href="#"
+                            href={`/articles?category=${item.path}`}
                             aria-current={isActive ? "page" : undefined}
                         >
                             {item.label}

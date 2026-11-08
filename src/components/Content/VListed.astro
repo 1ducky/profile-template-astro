@@ -1,6 +1,8 @@
 ---
+import { ArrowUpRight, CalendarDays } from 'lucide-react';
 import type { ArticleResponse } from '../../contract/article';
 import { ResolveUrlAsset } from '../../utils/resolve-url';
+import { timeAgo } from '../../utils/time';
 import { ArticleThumbnail } from './Thubnail';
 
 interface Props {
@@ -16,22 +18,7 @@ const { articles = [], title = "BERITA TERKINI" } = Astro.props;
 // UTILITY FUNGSI
 // ============================================================
 // Fungsi untuk mengubah ISO Date string menjadi format "X menit/jam lalu"
-function timeAgo(dateString: string) {
-  const date = new Date(dateString);
-  const now = new Date();
-  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-  if (diffInSeconds < 60) return "Baru saja";
-  
-  const diffInMinutes = Math.floor(diffInSeconds / 60);
-  if (diffInMinutes < 60) return `${diffInMinutes} menit`;
-
-  const diffInHours = Math.floor(diffInMinutes / 60);
-  if (diffInHours < 24) return `${diffInHours} jam`;
-
-  const diffInDays = Math.floor(diffInHours / 24);
-  return `${diffInDays} hari`;
-}
 ---
 
 <section class="w-full font-sans mx-auto bg-white">
@@ -43,11 +30,11 @@ function timeAgo(dateString: string) {
   </div>
 
   <!-- List Container -->
-  <div class="flex flex-col">
+  <div class="flex flex-col gap-2">
     {articles.map((article, index) => (
       <article 
         class:list={[
-          "flex flex-row items-stretch justify-between py-5 gap-4 group",
+          "flex flex-row items-stretch justify-between py-5 gap-4 group shadow-card rounded-2xl overflow-hidden relative",
           // Beri border bawah kecuali untuk item terakhir
           index !== articles.length - 1 && "border-b border-gray-100"
         ]}
@@ -58,7 +45,7 @@ function timeAgo(dateString: string) {
               <ArticleThumbnail 
                 image={{ alt: article.title, src: ResolveUrlAsset(article.cover), caption: title }}
                 priority={false}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl"
               />
             ) : (
               <div class="absolute inset-0 flex items-center justify-center text-gray-400 bg-gray-100">
@@ -70,28 +57,59 @@ function timeAgo(dateString: string) {
           </div>
         </div>
         <!-- Kiri: Konten Teks -->
-        <div class="flex flex-col justify-between flex-1">
-          <a href={article.url || `/articles/${article.slug}`} class="block">
-            <h3 class="text-[19px] md:text-[22px] font-normal leading-snug text-[#3b5998] group-hover:text-blue-700 transition-colors line-clamp-3">
-              {article.title}
-            </h3>
-          </a>
-          
-          <!-- Meta (Kategori & Waktu) -->
-          <div class="flex items-center gap-3 mt-3">
-            <span class="text-[12px] font-semibold text-[#e74c3c] uppercase tracking-wide">
-              {article.category || "UMUM"}
-            </span>
-            {
-              article.published_at && (
+        <div class="flex flex-1 flex-col gap-2 p-4">
+                {article.published_at && (
+                    <time
+                        datetime={article.published_at ?? undefined}
+                        class="flex items-center gap-1.5 text-xs text-[#6B7280]"
+                    >
+                        <CalendarDays className="h-3.5 w-3.5" aria-hidden="true" />
+                        {timeAgo(article.published_at || "")}
+                    </time>
+                )}
 
-            <span class="text-[13px] text-gray-500 font-normal">
-              {timeAgo(article.published_at)}
-            </span>
-              )
-            }
-          </div>
-        </div>
+                <h3 class="line-clamp-2 text-base font-semibold leading-snug tracking-tight text-[#1F2937]">
+                    {/* Stretched link: seluruh kartu bisa diklik */}
+                    <a
+                        href={article.url || "/articles/" + article.slug}
+                        class="outline-none before:absolute before:inset-0 before:content-['']"
+                    >
+                        {article.title}
+                    </a>
+                </h3>
+
+                <p class="line-clamp-2 text-sm leading-relaxed text-[#6B7280]">
+                    {article.excerpt}
+                </p>
+
+                {(article.badges.length > 0 || article.tags.length > 0) && (
+                    <ul class="mt-1 flex flex-wrap gap-1.5">
+                        {article.badges.slice(0, 2).map((badge) => (
+                            <li
+                                class="rounded-full bg-[#16A34A]/10 px-2.5 py-0.5 text-xs font-medium text-[#15803D]"
+                            >
+                                {badge}
+                            </li>
+                        ))}
+                        {article.tags.slice(0, 2).map((tag) => (
+                            <li
+
+                                class="rounded-full bg-[#F8FAFC] px-2.5 py-0.5 text-xs text-[#6B7280] ring-1 ring-inset ring-gray-200"
+                            >
+                                #{tag}
+                            </li>
+                        ))}
+                    </ul>
+                )}
+
+                <span class="mt-auto inline-flex items-center gap-1 pt-3 text-sm font-medium text-[#0B63CE]">
+                    Baca artikel
+                    <ArrowUpRight
+                        className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transition-none"
+                        aria-hidden="true"
+                    />
+                </span>
+            </div>
 
 
         
