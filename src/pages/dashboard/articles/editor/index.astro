@@ -1,9 +1,8 @@
 ---
 import { authApi } from "../../../../app/feature/auth";
+import Layout from "../../../../layouts/Layout.astro";
 import { ApiError } from "../../../../lib/api/error";
-
-export const prerender = false;
-const { id } = Astro.params;
+import { CreateArticle } from "./_publish";
 
 try {
     const sessionRes = await authApi.session();
@@ -18,3 +17,15 @@ try {
     }
 }
 ---
+
+<Layout
+    title="Editor"
+    description="Editor"
+    keywords={["editor"]}
+    type="website"
+    noIndex
+>
+    <main>
+        <CreateArticle client:only="react" />
+    </main>
+</Layout>

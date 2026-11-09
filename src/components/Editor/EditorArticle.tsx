@@ -52,7 +52,7 @@ export function EditorArticle({ onPublish, defaultValue }: { onPublish: (req: Ar
     const badgesRef = useRef<TagInputHandle>(null);
     const mdEditorRef = useRef<MDXEditorMethods>(null)
     const [mode, setMode] = useState<"write" | "external">("write")
-    const [cover, setCover] = useState<string>("")
+    const [cover, setCover] = useState<string>(defaultValue?.cover || "")
 
     const [isSubmmiting, setIsSubmmiting] = useState<Boolean>(false)
 
@@ -89,7 +89,7 @@ export function EditorArticle({ onPublish, defaultValue }: { onPublish: (req: Ar
             <form onSubmit={(e) => onSubmit(e)} className="mx-auto flex w-full max-w-215 flex-col gap-8">
                 <header className="flex flex-col gap-1.5">
                     <h1 className="text-[28px] font-bold leading-tight tracking-tight sm:text-[32px]">
-                        Artikel baru
+                        {defaultValue ? "Perbarui Article" : "Article Baru"}
                     </h1>
                     <p className="text-[15px] text-text-muted">
                         Tulis artikel sendiri, atau arahkan pembaca ke tautan di situs lain.
@@ -141,6 +141,7 @@ export function EditorArticle({ onPublish, defaultValue }: { onPublish: (req: Ar
                         <input
                             id="title"
                             name="title"
+                            defaultValue={defaultValue?.title || ""}
                             placeholder="Judul yang jelas dan singkat"
                             className="w-full rounded-[10px] border border-[#D1D5DB] bg-white px-3.5 py-2.5 text-[15px] text-[#1F2937] placeholder:text-[#9CA3AF] outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                         />
@@ -158,6 +159,7 @@ export function EditorArticle({ onPublish, defaultValue }: { onPublish: (req: Ar
                                 name="url"
                                 type="url"
                                 inputMode="url"
+                                defaultValue={defaultValue?.url || ""}
                                 placeholder="https://youtube.com/watch?v=..."
                                 className="w-full rounded-[10px] border border-[#D1D5DB] bg-white px-3.5 py-2.5 text-[15px] text-[#1F2937] placeholder:text-[#9CA3AF] outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                             />
@@ -171,7 +173,8 @@ export function EditorArticle({ onPublish, defaultValue }: { onPublish: (req: Ar
                     >
                         <textarea
                             id="excerpt"
-                            name="url"
+                            name="excerpt"
+                            defaultValue={defaultValue?.excerpt || ""}
                             rows={3}
                             className={"w-full rounded-[10px] border border-[#D1D5DB] bg-white px-3.5 py-2.5 text-[15px] text-[#1F2937] placeholder:text-[#9CA3AF] outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" + `resize-y leading-relaxed`}
                         />
@@ -225,23 +228,24 @@ export function EditorArticle({ onPublish, defaultValue }: { onPublish: (req: Ar
                             <input
                                 id="category"
                                 name="category"
+                                defaultValue={defaultValue?.category || ""}
                                 placeholder="mis. Teknologi"
                                 className={"w-full rounded-[10px] border border-[#D1D5DB] bg-white px-3.5 py-2.5 text-[15px] text-[#1F2937] placeholder:text-[#9CA3AF] outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"}
                             />
                         </Field>
                     </div>
                     <Field label="Tag" htmlFor="tags" hint="Tekan Enter atau koma untuk menambah.">
-                        <TagInput id="tags" ref={tagsRef} placeholder="#Pendidikan" />
+                        <TagInput id="tags" ref={tagsRef} placeholder="#Pendidikan" defaultValue={defaultValue?.tags || []} />
                     </Field>
                     <Field label="Badge" htmlFor="badges" hint="Penanda singkat di kartu, mis. Opini atau Video.">
-                        <TagInput id="badges" ref={badgesRef} placeholder="Opini" />
+                        <TagInput id="badges" ref={badgesRef} placeholder="Opini" defaultValue={defaultValue?.badges || []} />
                     </Field>
                 </section>
                 {mode == "write" && (
                     <section className="flex flex-col gap-3 rounded-2xl border border-border bg-white p-5 shadow-card sm:p-7">
                         <h2 className="text-lg font-semibold">Isi artikel</h2>
                         <EditorMarkdown
-                            markdown={""}
+                            markdown={defaultValue?.content || ""}
                             ref={mdEditorRef}
                         />
 

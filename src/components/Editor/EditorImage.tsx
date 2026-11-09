@@ -1,6 +1,7 @@
 import { usePublisher, insertImage$, Button } from "@mdxeditor/editor";
 import { useImageUploader } from "./ImageUploader/ImageProvider";
 import type { ArticleImage } from "../../types/article/entity";
+import { Image } from "lucide-react";
 
 export function CustomImageButton() {
     const insertImage = usePublisher(insertImage$);
@@ -19,7 +20,7 @@ export function CustomImageButton() {
 
     return (
         <Button title="Upload gambar" onClick={handleClick}>
-            Upload gambar
+            <Image />
         </Button>
     );
 }
@@ -40,8 +41,10 @@ export function InsertImageButton({ onSuccess }: { onSuccess: (imageUrl: Article
     }
 
     return (
-        <button type="button" title="Upload gambar" onClick={handleClick}>
-            Upload gambar
+        <button type="button" title="Upload gambar" onClick={handleClick} className="flex flex-row flex-nowrap gap-3">
+            <Image /> <p>
+                Upload Gambar
+            </p>
         </button>
     );
 }

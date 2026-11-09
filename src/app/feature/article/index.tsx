@@ -10,6 +10,9 @@ export async function GetListArticle(filter: ArticleListQuery): Promise<ArticleL
 export async function GetBySlug(slug: string): Promise<ArticleResponse> {
     return (await api.get<ArticleResponse>(`/articles/${slug}`)).data
 }
+export async function GetByID(id: string): Promise<ArticleResponse> {
+    return (await api.get<ArticleResponse>(`/article/${id}`)).data
+}
 export async function PublishArticle(req: ArticleField): Promise<ArticleResponse> {
     return (await api.post<ArticleResponse>(`/articles`, req)).data
 }
