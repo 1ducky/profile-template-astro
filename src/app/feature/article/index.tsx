@@ -13,3 +13,6 @@ export async function GetBySlug(slug: string): Promise<ArticleResponse> {
 export async function PublishArticle(req: ArticleField): Promise<ArticleResponse> {
     return (await api.post<ArticleResponse>(`/articles`, req)).data
 }
+export async function UpdateArticles(req: ArticleField, articleId: string): Promise<ArticleResponse> {
+    return (await api.patch<ArticleResponse>(`/articles/${articleId}`, req)).data
+}

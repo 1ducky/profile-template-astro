@@ -55,7 +55,7 @@ export function ArticleMiniCard({
                 <h3 className="line-clamp-2 text-base font-semibold leading-snug tracking-tight text-[#1F2937]">
                     {/* Stretched link: seluruh kartu bisa diklik */}
                     <a
-                        href={article.url || "/articles/" + article.slug}
+                        href={article.url != "" ? article.url : "/articles/" + article.slug}
                         className="outline-none before:absolute before:inset-0 before:content-['']"
                     >
                         {article.title}

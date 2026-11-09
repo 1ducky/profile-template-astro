@@ -4,10 +4,6 @@ export interface UserSession {
     email: string;
     role: string;
     version: number;
-    username: string;
-    tag: string;
-    avatar: string | null;
-    bio: string | null;
 }
 //input
 

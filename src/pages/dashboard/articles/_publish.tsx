@@ -1,6 +1,7 @@
-import { PublishArticle } from "../../app/feature/article";
-import { EditorArticle } from "../../components/Editor/EditorArticle";
-import type { ArticleField } from "../../contract/article";
+import { PublishArticle } from "../../../app/feature/article"
+import { EditorArticle } from "../../../components/Editor/EditorArticle"
+import type { ArticleField } from "../../../contract/article"
+
 
 export function CreateArticle() {
     const onSubmit = async (req: ArticleField) => {

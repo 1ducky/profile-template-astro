@@ -101,13 +101,8 @@ export default function HeadlineSection({ article }: { article: ArticleResponse[
             {/* 3. Stream Articles (Grid 5 Kolom di Desktop) */}
             <div className="lg:grid hidden grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 px-2">
                 {article.map((article) => (
-                    <a
-                        key={article.id}
-                        className="flex flex-col group cursor-pointer shadow-card"
-                        href={article.url != "" ? article.url : `/articles/${article.slug}`}
-                    >
-                        <ArticleMiniCard article={article} className="h-full" />
-                    </a>
+
+                    <ArticleMiniCard article={article} className="h-full" />
                 ))}
             </div>
 

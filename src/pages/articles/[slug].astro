@@ -30,7 +30,7 @@ if (!article) {
 
 var articlesList: ArticleListResponse | null = null;
 try {
-    articlesList = await GetListArticle();
+    articlesList = await GetListArticle({});
 } catch (e) {
 }
 

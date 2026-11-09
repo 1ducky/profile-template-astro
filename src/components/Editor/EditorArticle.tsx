@@ -47,7 +47,7 @@ function Field({
 
 
 
-export function EditorArticle({ onPublish }: { onPublish: (req: ArticleField) => void }) {
+export function EditorArticle({ onPublish, defaultValue }: { onPublish: (req: ArticleField) => void, defaultValue?: ArticleField }) {
     const tagsRef = useRef<TagInputHandle>(null);
     const badgesRef = useRef<TagInputHandle>(null);
     const mdEditorRef = useRef<MDXEditorMethods>(null)
