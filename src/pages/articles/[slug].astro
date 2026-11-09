@@ -8,8 +8,7 @@ import AdsSection from "../../components/Content/Ads";
 import Content from "../../components/Content/Content.astro";
 import GalerySection from "../../components/Content/Galery";
 import VListed from "../../components/Content/VListed.astro";
-import { mockArticles } from "../../data/article/Articles";
-import Fragment from "../../layouts/Article/Fragment.astro";
+import FragmentSection from "../../layouts/Article/Fragment.astro";
 import Layout from "../../layouts/Layout.astro";
 import { ResolveUrlAsset } from "../../utils/resolve-url";
 
@@ -38,7 +37,7 @@ try {
 ---
 
 <Layout title={article.title}>
-    <Fragment>
+    <FragmentSection>
         <main class="mx-auto max-w-4xl px-4 py-10">
             <header class="mb-8">
                 <p>{article.category}</p>
@@ -84,8 +83,8 @@ try {
                 </div>
             )
         }
-    </Fragment>
-    <Fragment>
+    </FragmentSection>
+    <FragmentSection>
         {articlesList && (
 
             <VListed articles={articlesList.articles} client:visible />
@@ -95,5 +94,5 @@ try {
                 </AdsSection>
             </div>
         )}
-    </Fragment>
+    </FragmentSection>
 </Layout>

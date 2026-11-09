@@ -1,6 +1,7 @@
 ---
 import Navbar from "../components/frontpage/Navbar";
 import "../global.css";
+import { AlertProvider } from "../hooks/useAllert";
 ---
 
 <!doctype html>
@@ -21,6 +22,7 @@ import "../global.css";
 	</head>
 	<body class="font-sans text-surface dark:text-night-surface">
 		<Navbar client:load />
+		<AlertProvider client:load />
 		<slot />
 	</body>
 </html>

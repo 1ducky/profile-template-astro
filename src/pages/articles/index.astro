@@ -11,7 +11,7 @@ import Galery from "../../components/Content/Galery";
 import AdsSection from "../../components/Content/Ads";
 import VListed from "../../components/Content/VListed.astro";
 // import { mockArticles } from "../../data/article/Articles";
-import Fragment from "../../layouts/Article/Fragment.astro";
+import FragmentSection from "../../layouts/Article/Fragment.astro";
 import HListed from "../../components/Content/HListed.astro";
 import { GetListArticle } from "../../app/feature/article";
 import type { ArticleListResponse } from "../../contract/article";
@@ -69,7 +69,7 @@ articlesList.articles.forEach((e) => {
             article={articlesList.articles.slice(0, 5)}
             client:visible
         />
-        <Fragment>
+        <FragmentSection>
             <VListed articles={articlesList.articles} client:visible />
             <div class="" slot="sidebar">
                 <div class="aspect-4/3">
@@ -82,9 +82,9 @@ articlesList.articles.forEach((e) => {
                     <VListed articles={articlesList.articles} client:visible />
                 </AdsSection>
             </div>
-        </Fragment>
+        </FragmentSection>
         <HListed articles={articlesList.articles.slice(0, 5)} client:visible />
-        <Fragment>
+        <FragmentSection>
             <VListed articles={articlesList.articles} client:visible />
             <div class="" slot="sidebar">
                 <div class="aspect-4/3">
@@ -97,7 +97,7 @@ articlesList.articles.forEach((e) => {
                     <VListed articles={articlesList.articles} client:visible />
                 </AdsSection>
             </div>
-        </Fragment>
+        </FragmentSection>
     </ArticleContainer>
     <ArticleFooter />
 </Layout>

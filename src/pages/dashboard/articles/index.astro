@@ -1,0 +1,40 @@
+---
+import { GetListArticle } from "../../../app/feature/article";
+import { authApi } from "../../../app/feature/auth";
+import type {
+    ArticleListResponse,
+    ArticleResponse,
+} from "../../../contract/article";
+import { ArticleManagementLayout } from "../../../layouts/dashboard/ArticleManagement";
+import Layout from "../../../layouts/Layout.astro";
+import { ApiError } from "../../../lib/api/error";
+import { ArticleManage } from "./_manage";
+
+let Article: ArticleListResponse | null = null;
+try {
+    const sessionRes = await authApi.session();
+    if (sessionRes.data.id != "") {
+        return Astro.redirect("/articles");
+    }
+    const ArticleRes = await GetListArticle({ authorId: sessionRes.data.id });
+    Article = ArticleRes;
+} catch (e) {
+    if (e instanceof ApiError) {
+        if (e.statusCode == 401) {
+            console.log("Tidak Login");
+            return Astro.redirect("/articles");
+        }
+        if (e.statusCode == 404) {
+            console.log("Article Tidak Ada");
+            return Astro.redirect("/not-found");
+        }
+    }
+}
+if (!Article) return Astro.redirect("/notfound");
+---
+
+<Layout>
+    <ArticleManagementLayout client:only="react">
+        <ArticleManage articles={Article.articles} client:visible />
+    </ArticleManagementLayout>
+</Layout>
