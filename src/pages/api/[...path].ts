@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 
-const API_URL = import.meta.env.API_URL || "";
-const APP_ORIGIN = import.meta.env.APP_ORIGIN || "";
+const API_URL = process.env.API_URL || "";
+const APP_ORIGIN = process.env.APP_ORIGIN || "";
 
 const ALLOWED_METHODS = new Set([
     "GET",
@@ -13,6 +13,9 @@ const ALLOWED_METHODS = new Set([
 
 export const ALL: APIRoute = async ({ request }) => {
     const method = request.method;
+    console.log("Backend",API_URL)
+    console.log("Frontend",APP_ORIGIN)
+    console.log("fullpath",API_URL+request.url)
 
     if (!ALLOWED_METHODS.has(method)) {
         return new Response(null, {

@@ -17,7 +17,7 @@ function getApiBase(): string {
         return "/api";
     }
 
-    const base = import.meta.env.API_URL;
+    const base = process.env.API_URL;
 
     if (!base) {
         throw new Error("API_URL is not configured");

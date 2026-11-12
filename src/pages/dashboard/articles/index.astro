@@ -38,10 +38,6 @@ try {
             console.log("Tidak Login");
             return Astro.redirect("/articles");
         }
-        if (e.statusCode == 404) {
-            console.log("Article Tidak Ada");
-            return Astro.redirect("/not-found");
-        }
         console.log(e)
     }
 }

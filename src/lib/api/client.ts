@@ -10,17 +10,17 @@ interface RequestOptions extends Omit<RequestInit, "body"> {
 const isServer = typeof window === "undefined";
 
 function getApiBase(): string {
-    if (isServer) {
-        const base = import.meta.env.API_URL;
-        console.log(base)
-        if (!base) {
-            throw new Error("API_URL is not configured");
-        }
-
-        return base;
+    if (!isServer) {
+        return "/api";
     }
 
-    return "/api";
+    const base = process.env.API_URL;
+
+    if (!base) {
+        throw new Error("API_URL is not configured");
+    }
+
+    return base.replace(/\/+$/, "");
 }
 
 async function request<T>(
