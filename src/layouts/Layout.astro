@@ -1,4 +1,5 @@
 ---
+import ImageUploaderProvider from "../components/Editor/ImageUploader/ImageProvider";
 import Navbar from "../components/frontpage/Navbar";
 import "../global.css";
 import { AlertProvider } from "../hooks/useAllert";
@@ -23,6 +24,12 @@ import { AlertProvider } from "../hooks/useAllert";
 	<body class="font-sans text-surface dark:text-night-surface">
 		<Navbar client:load />
 		<AlertProvider client:load />
+		<ImageUploaderProvider
+            client:load
+            endpoint="/api/assets/upload"
+            fieldName="image"
+            maxSizeMB={5}
+        />
 		<slot />
 	</body>
 </html>

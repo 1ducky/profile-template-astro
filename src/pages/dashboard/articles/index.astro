@@ -1,23 +1,37 @@
 ---
 import { GetListArticle } from "../../../app/feature/article";
-import { authApi } from "../../../app/feature/auth";
+import {createApi} from "../../../lib/api/api-client"
+import type { UserSession } from "../../../app/feature/auth/types";
+import { createAuthApi } from "../../../app/feature/auth/index";
+import { createProfileApi } from "../../../app/feature/profile/index";
 import type {
     ArticleListResponse,
-    ArticleResponse,
 } from "../../../contract/article";
 import { ArticleManagementLayout } from "../../../layouts/dashboard/ArticleManagement";
 import Layout from "../../../layouts/Layout.astro";
 import { ApiError } from "../../../lib/api/error";
 import { ArticleManage } from "./_manage";
+import type { ProfileResponse } from "../../../contract/profile";
+import { profile } from "node:console";
 
 let Article: ArticleListResponse | null = null;
+let Profile: ProfileResponse | null = null;
+let isLogin :boolean = false
+let debug : UserSession | null = null 
+
+const cookie = Astro.request.headers.get("cookie") || "";
+console.log(cookie)
 try {
-    const sessionRes = await authApi.session();
-    if (sessionRes.data.id != "") {
+    const api = createApi({cookie:cookie})
+    const sessionRes = await createAuthApi(api).session();
+    if (sessionRes.data.id == "") {
         return Astro.redirect("/articles");
     }
-    const ArticleRes = await GetListArticle({ authorId: sessionRes.data.id });
+    isLogin = true
+    const[ArticleRes,ProfileRes] = await Promise.all( [GetListArticle({ authorId: sessionRes.data.id }), createProfileApi(api).getProfile()] )
+
     Article = ArticleRes;
+    Profile = ProfileRes.data
 } catch (e) {
     if (e instanceof ApiError) {
         if (e.statusCode == 401) {
@@ -28,13 +42,16 @@ try {
             console.log("Article Tidak Ada");
             return Astro.redirect("/not-found");
         }
+        console.log(e)
     }
 }
-if (!Article) return Astro.redirect("/notfound");
+if (!Article || !isLogin || !Profile) return Astro.redirect("/notfound");
+console.log(Article)
+console.log(debug)
 ---
 
 <Layout>
-    <ArticleManagementLayout client:only="react">
+    <ArticleManagementLayout client:only="react" Profile={Profile}>
         <ArticleManage articles={Article.articles} client:visible />
     </ArticleManagementLayout>
 </Layout>

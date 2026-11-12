@@ -8,6 +8,7 @@ export function CreateArticle() {
         try {
             const res = await PublishArticle(req)
             console.log(res)
+            window.location.href = "/dashboard/articles"
         } catch (e) {
             console.log(e)
         }

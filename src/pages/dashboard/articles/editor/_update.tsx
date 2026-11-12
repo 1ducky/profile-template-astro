@@ -8,6 +8,7 @@ export function UpdateArticleEditor({ defaultValue }: { defaultValue: ArticleRes
         try {
             const res = await UpdateArticles(req, defaultValue.id)
             console.log(res)
+            window.location.href = "/dashboard/articles"
         } catch (e) {
             console.log(e)
         }

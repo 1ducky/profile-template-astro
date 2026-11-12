@@ -19,3 +19,6 @@ export async function PublishArticle(req: ArticleField): Promise<ArticleResponse
 export async function UpdateArticles(req: ArticleField, articleId: string): Promise<ArticleResponse> {
     return (await api.patch<ArticleResponse>(`/articles/${articleId}`, req)).data
 }
+export async function DeleteArticles(articleId: string): Promise<{message:string}> {
+    return (await api.delete<{message:string}>(`/articles/${articleId}`)).data
+}

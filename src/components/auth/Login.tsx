@@ -1,10 +1,11 @@
 
 import type { LoginInput } from "../../app/feature/auth/types";
-import { authApi } from "../../app/feature/auth";
 import { GetListArticle } from "../../app/feature/article";
 
 import { useRef, useState } from "react";
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
+import { createAuthApi } from "../../app/feature/auth";
+import { api } from "../../lib/api/api-client";
 
 
 
@@ -132,8 +133,9 @@ export function Login() {
     const onLogin = async (req: LoginInput) => {
         try {
 
-            const res = await authApi.login(req)
+            const res = await createAuthApi(api).login(req)
             console.log(res)
+            window.location.href = "/dashboard/articles"
         } catch (e) {
             console.log(e)
         }

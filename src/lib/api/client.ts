@@ -4,6 +4,7 @@ import type { ApiResponse, ErrorResponse } from "./types";
 
 interface RequestOptions extends Omit<RequestInit, "body"> {
     body?: unknown;
+    cookie? : string
 }
 
 const isServer = typeof window === "undefined";
@@ -27,6 +28,7 @@ async function request<T>(
     options: RequestOptions = {},
 ): Promise<ApiResponse<T>> {
     const {
+        cookie,
         body,
         headers: customHeaders,
         ...init
@@ -37,6 +39,12 @@ async function request<T>(
     headers.set("Accept", "application/json");
 
     let requestBody: BodyInit | undefined;
+
+    if (cookie) {
+        headers.set("Cookie", cookie);
+        console.log("Cookie Attcatceh")
+        console.log(cookie)
+    }
 
     if (body instanceof FormData) {
         requestBody = body;
@@ -78,26 +86,30 @@ async function request<T>(
 export const api = {
     request,
 
-    get<T>(path: string) {
-        return request<T>(path, { method: "GET" });
+    get<T>(path: string, cookie?:string) {
+        
+        return request<T>(path, { cookie,method: "GET" });
     },
 
-    post<T>(path: string, body?: unknown) {
+    post<T>(path: string, body?: unknown, cookie?:string) {
         return request<T>(path, {
+            cookie,
             method: "POST",
             body,
         });
     },
 
-    patch<T>(path: string, body?: unknown) {
+    patch<T>(path: string, body?: unknown, cookie?:string) {
         return request<T>(path, {
+            cookie,
             method: "PATCH",
             body,
         });
     },
 
-    delete<T>(path: string) {
+    delete<T>(path: string, cookie?:string) {
         return request<T>(path, {
+            cookie,
             method: "DELETE",
         });
     },

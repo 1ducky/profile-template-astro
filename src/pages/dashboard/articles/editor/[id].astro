@@ -1,12 +1,15 @@
 ---
-import { GetByID, UpdateArticles } from "../../../../app/feature/article";
-import { authApi } from "../../../../app/feature/auth";
+import { GetByID} from "../../../../app/feature/article";
+import { createAuthApi } from "../../../../app/feature/auth";
 import type { ArticleResponse } from "../../../../contract/article";
 import Layout from "../../../../layouts/Layout.astro";
+import { createApi } from "../../../../lib/api/api-client";
 import { ApiError } from "../../../../lib/api/error";
 import { UpdateArticleEditor } from "./_update";
 
 export const prerender = false;
+
+const cookie = Astro.request.headers.get("cookie")||"";
 const { id } = Astro.params;
 if (!id) {
     console.log("DynamicParam Tidak Ada");
@@ -15,13 +18,14 @@ if (!id) {
 
 let Article: ArticleResponse | null = null;
 try {
+    const api = createApi({cookie:cookie})
+    const sessionRes = await createAuthApi(api).session();
+    if (sessionRes.data.id == "") {
+        return Astro.redirect("/articles");
+    }
     const ArticleRes = await GetByID(id);
     Article = ArticleRes;
 
-    const sessionRes = await authApi.session();
-    if (sessionRes.data.id != "") {
-        return Astro.redirect("/articles");
-    }
 } catch (e) {
     if (e instanceof ApiError) {
         if (e.statusCode == 401) {

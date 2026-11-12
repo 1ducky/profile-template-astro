@@ -3,9 +3,26 @@ import type { ArticleResponse } from "../../../contract/article";
 import { FileText, Plus } from "lucide-react";
 import { Button } from "../../../components/global/primitive/button";
 import { ArticleListItem } from "../../../components/dashboard/Article/ListArticle";
+import { DeleteArticles } from "../../../app/feature/article";
+import { ApiError } from "../../../lib/api/error";
+import { useAlert } from "../../../hooks/useAllert";
 
 export function ArticleManage({ articles }: { articles?: ArticleResponse[] }) {
+        const confirm = useAlert();
     const [list, setList] = useState<ArticleResponse[]>(articles || [])
+    const onDeleteArticle = async (articleId : string) => {
+        try{
+            const res = await DeleteArticles(articleId)
+            const ok = await confirm({title:"Berhasil DiHapus"})
+            setList(list.filter(e => e.id != articleId))
+        }catch(e){
+            if (e instanceof ApiError) {
+                const ok = await confirm({title:`Gagal DI Hapus, Code : ${e.code} ,RequestID: ${e.requestId}`})
+            }
+            const ok = await confirm({title:`Terjadi Kesalahan Yang Tidak Terduga`})
+        }
+
+    }
     return (
         <>
             {list.length == 0 && (
@@ -17,7 +34,7 @@ export function ArticleManage({ articles }: { articles?: ArticleResponse[] }) {
                         {
                             list.map((art, i) => {
                                 return (
-                                    <ArticleListItem article={art} onDelete={(id) => console.log(id)} root="/dashboard/articles/editor" />
+                                    <ArticleListItem article={art} onDelete={(id) => onDeleteArticle(id)} root="/dashboard/articles/editor" />
                                 )
                             })
                         }

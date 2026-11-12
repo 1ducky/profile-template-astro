@@ -5,7 +5,7 @@ export function ResolveUrl(imageSource: string, domainResolve: string): string {
 
 // src/utils/resolveUrl.ts
 const ASSET_PREFIX = "assets:";
-const ASSET_BASE_URL = import.meta.env.PUBLIC_API_URL ?? "";
+const ASSET_BASE_URL =  "/api";
 
 export function ResolveUrlAsset(input?: string | null): string {
   if (!input) return "";

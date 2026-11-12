@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Sidebar } from "../../components/dashboard/Article/Sidebar";
 import { IconButton } from "../../components/global/primitive/button";
 import { Bell, Menu, Search } from "lucide-react";
+import type { ProfileResponse } from "../../contract/profile";
 
-export function ArticleManagementLayout({ children }: { children: React.ReactNode }) {
+export function ArticleManagementLayout({ children,Profile }: { children: React.ReactNode,Profile: ProfileResponse  }) {
     const [drawer, setDrawer] = useState(false);
 
     return (
@@ -45,11 +46,20 @@ export function ArticleManagementLayout({ children }: { children: React.ReactNod
                             <Bell className="h-5 w-5" />
                         </IconButton>
                         <span
-                            className="ml-2 flex h-9 w-9 items-center justify-center rounded-full bg-[#1AA6B7] text-sm font-bold text-white"
-                            aria-label="Akun: Puguh"
-                        >
-                            P
-                        </span>
+            className="ml-2 flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#1AA6B7] text-sm font-bold text-white"
+            aria-label={`Akun: ${Profile.username}#${Profile.tag}`}
+            title={`${Profile.username}#${Profile.tag}${Profile.bio ? ` — ${Profile.bio}` : ""}`}
+        >
+            {Profile.avatar != "" ? (
+                <img
+                    src={Profile.avatar}
+                    alt={Profile.username}
+                    className="h-full w-full object-cover"
+                />
+            ) : (
+                Profile.username.charAt(0).toUpperCase()
+            )}
+        </span>
                     </div>
                 </header>
 
