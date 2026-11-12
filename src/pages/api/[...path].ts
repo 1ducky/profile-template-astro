@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 
-const API_URL = import.meta.env.API_URL;
-const APP_ORIGIN = import.meta.env.APP_ORIGIN;
+const API_URL = import.meta.env.API_URL || "";
+const APP_ORIGIN = import.meta.env.APP_ORIGIN || "";
 
 const ALLOWED_METHODS = new Set([
     "GET",
@@ -28,6 +28,8 @@ export const ALL: APIRoute = async ({ request }) => {
         const origin = request.headers.get("origin");
 
         if (!origin || origin !== APP_ORIGIN) {
+            console.log(origin)
+            console.log(APP_ORIGIN)
             return new Response("Forbidden origin", {
                 status: 403,
             });
@@ -83,7 +85,7 @@ export const ALL: APIRoute = async ({ request }) => {
             {
                 code: "UPSTREAM_UNAVAILABLE",
                 message: "Backend service is unavailable",
-                request_id: "",
+                request_id: targetURL,
                 status: upstreamStatusPlaceholder(),
             },
             { status: 502 },

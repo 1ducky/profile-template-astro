@@ -6,11 +6,21 @@ interface RequestOptions extends Omit<RequestInit, "body"> {
     body?: unknown;
 }
 
-const isServer = typeof window === "undefined"
-const SERVER_BASE =
-    import.meta.env.API_URL
+const isServer = typeof window === "undefined";
 
-const API_BASE = isServer ? SERVER_BASE : "/api";
+function getApiBase(): string {
+    if (isServer) {
+        const base = import.meta.env.API_URL;
+        console.log(base)
+        if (!base) {
+            throw new Error("API_URL is not configured");
+        }
+
+        return base;
+    }
+
+    return "/api";
+}
 
 async function request<T>(
     path: string,
@@ -36,7 +46,7 @@ async function request<T>(
     }
 
     const response = await fetch(
-        `${API_BASE}/${path.replace(/^\/+/, "")}`,
+        `${getApiBase()}/${path.replace(/^\/+/, "")}`,
         {
             ...init,
             headers,

@@ -1,7 +1,8 @@
 {
-  "name": "",
+  "name": "profile-frontend",
   "type": "module",
   "version": "0.0.1",
+  "packageManager": "pnpm@12.10.1",
   "engines": {
     "node": ">=22.23.4"
   },
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "@types/markdown-it": "^14.2.0",
-    "@types/mdast": "^4.0.4"
+    "@types/mdast": "^4.0.4",
+    "@types/node": "^26.6.6"
   }
 }
